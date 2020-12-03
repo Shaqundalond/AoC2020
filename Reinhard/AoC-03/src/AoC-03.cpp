@@ -20,31 +20,21 @@ using namespace std;
  * 
  * Results for both puzzles are calculatet while readin th input-file and are written to std::cout.
  * 
- * @param fn        filename for input
+ * @param vs        vector<string> with treemap
  * @return int      errornumer
  *                  0 - no error
  *                 -1 - file opening error
  */
-int Puzzle_3_1(const string fn)
+int Puzzle_3_1(const vector<string> &vs, const int dx, const int dy)
 {
-    cout << MakeHeadline("** Puzzle 1: Counting trees",'-') << endl;
-
-    vector<string> vs;
-
-    if (ReadStrings(fn, vs) < 0)
-        return -1;
-
-    const int dx = 3;
-    const int dy = 1;
-
     int ix = 0;
     int iy = 0;
     int iCountTrees = 0;
 
     for (iy = 0; iy < vs.size(); iy+= dy)
     {
-        int iySize = vs[iy].length();        // should be always the same
-        int ii = ix % iySize;
+        int cxSize = vs[iy].length();        // should be always the same, but - who knows
+        int ii = ix % cxSize;
         char tc = (vs[iy]).at(ii);
         if (tc == '#')
             iCountTrees += 1;
@@ -63,7 +53,14 @@ int main()
 {
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 03",'=') << endl;
 
-    Puzzle_3_1("input.txt");
+    cout << MakeHeadline("** Puzzle 1: Counting trees",'-') << endl;
+
+    vector<string> vs;
+
+    if (ReadStrings("input.txt", vs) > 0)
+    {
+        Puzzle_3_1(vs, 3, 1);
+    }
 
     return 0;
 }
