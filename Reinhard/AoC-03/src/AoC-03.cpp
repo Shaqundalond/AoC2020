@@ -22,7 +22,7 @@ using namespace std;
  * 
  * @param vs        vector<string> with treemap
  * @return int      errornumer
- *                  0 - no error
+ *                  n - number of trees
  *                 -1 - file opening error
  */
 int Puzzle_3_1(const vector<string> &vs, const int dx, const int dy)
@@ -45,7 +45,7 @@ int Puzzle_3_1(const vector<string> &vs, const int dx, const int dy)
     cout << endl;
     cout << "**** Number of trees    : " << iCountTrees << endl;
  
-    return 0;
+    return iCountTrees;
 }
 
 
@@ -56,10 +56,20 @@ int main()
     cout << MakeHeadline("** Puzzle 1: Counting trees",'-') << endl;
 
     vector<string> vs;
+    long int iTot = 0L;
 
     if (ReadStrings("input.txt", vs) > 0)
     {
-        Puzzle_3_1(vs, 3, 1);
+        int nT_1 = Puzzle_3_1(vs, 1, 1);
+        int nT_2 = Puzzle_3_1(vs, 3, 1);
+        int nT_3 = Puzzle_3_1(vs, 5, 1);
+        int nT_4 = Puzzle_3_1(vs, 7, 1);
+        int nT_5 = Puzzle_3_1(vs, 1, 2);
+
+        long nT_Tot = nT_1 * nT_2 * nT_3 * nT_4 * nT_5;
+
+        cout << endl;
+        cout << " ***** Total number of Trees: " << nT_Tot << endl << endl;
     }
 
     return 0;
