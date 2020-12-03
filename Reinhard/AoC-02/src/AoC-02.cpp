@@ -10,51 +10,42 @@
 
 using namespace std;
 
-const int iPuzzle = 2;      // Puzzle no.
 
+/**
+ * @brief Generate a std::string with three lines, containing a "framed" head-string
+ * 
+ * looks like:
+ * 
+ * ========
+ * = head =
+ * ========
+ * 
+ * @param head          string to be framed
+ * @param char_frame    charachter used for framing (i.e. '*','-','=',...)
+ * @return string       three line string
+ */
 string MakeHeadline(const string head, const char char_frame)
 {
-    // Makeing:
-    //
-    // ========
-    // = head =
-    // ========
-    //
-
     stringstream ts;
     int ls = head.length() + 4;
     ts << endl;
-    ts << string(char_frame,ls) << endl;
+    ts << string(ls,char_frame) << endl;
     ts << char_frame << " " << head << " " << char_frame << endl;
+    ts << string(ls,char_frame) << endl;
     ts << endl;
     return ts.str();
 }
 
-int ReadInts(vector<int>& v_i)
-{
-    int count = 0;
-    string fn = "input.txt";
-    ifstream fil(fn);
-
-    // open the input file
-    if (!fil.is_open())
-    {
-        cout << "Could not open file: [" << fn << "]" << endl;
-        return 1;
-    }
-
-    // real all lines
-    int one = 0;
-    string line;
-    while (getline(fil, line))
-    {
-        one = stoi(line);
-        v_i.push_back(one);
-        count++;
-    }
-    return count;
-}
-
+/**
+ * @brief       AoC Puzzle Day 02
+ * 
+ * Results for both puzzles are calculatet while readin th input-file and are written to std::cout.
+ * 
+ * @param fn        filename for input
+ * @return int      errornumer
+ *                  0 - no error
+ *                  1 - file opening error
+ */
 int Puzzle_2_1(const string fn)
 {
     cout << MakeHeadline("** Puzzle 1: Looking for valid passwords",'-') << endl;
@@ -69,6 +60,7 @@ int Puzzle_2_1(const string fn)
 
     // read all lines
     int iCountValid = 0;
+    int iCountValidNew = 0;
     int iLine = 0;
     string line;
     while (getline(fil, line))
@@ -87,13 +79,29 @@ int Puzzle_2_1(const string fn)
         {
             // valid inputline
             int iCountChar = 0;
+            char c1 = '1';
+            char c2 = '2';
+            int ii = 0;
             for (char tc : pw)
             {
+                // Rule for puzzle 1
                 if (tc == ch_char)
                     iCountChar++;
+                // Rule for puzzle 2
+                ii++;
+                if (ii==iMin)
+                    c1 = tc;
+                if (ii==iMax)
+                    c2 = tc;
             }
+            // Rule 1
             if (iCountChar >= iMin && iCountChar <= iMax)
                 iCountValid++;
+            // Rule 2
+            if ((c1 == ch_char) ^ (c2 == ch_char))
+            {
+                iCountValidNew++;
+            }
         }
         else
         {
@@ -103,7 +111,12 @@ int Puzzle_2_1(const string fn)
         
     }
 
-    return iCountValid;
+    // Writing results to std::cout
+    cout << endl;
+    cout << "**** Valid passwords    : " << iCountValid << endl;
+    cout << "**** Valid passwords NEW: " << iCountValidNew << endl;
+
+    return 0;
 }
 
 
@@ -112,7 +125,6 @@ int main()
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 02",'=') << endl;
 
     Puzzle_2_1("input.txt");
-    // Puzzle_2_2(v_i);
 
     return 0;
 }
