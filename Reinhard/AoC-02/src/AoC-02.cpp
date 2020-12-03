@@ -10,17 +10,22 @@
 
 using namespace std;
 
-const int iPuzzle = 2;      // Puzzle no.
 
+/**
+ * @brief Generate a std::string with three lines, containing a "framed" head-string
+ * 
+ * looks like:
+ * 
+ * ========
+ * = head =
+ * ========
+ * 
+ * @param head          string to be framed
+ * @param char_frame    charachter used for framing (i.e. '*','-','=',...)
+ * @return string       three line string
+ */
 string MakeHeadline(const string head, const char char_frame)
 {
-    // Making:
-    //
-    // ========
-    // = head =
-    // ========
-    //
-
     stringstream ts;
     int ls = head.length() + 4;
     ts << endl;
@@ -31,6 +36,16 @@ string MakeHeadline(const string head, const char char_frame)
     return ts.str();
 }
 
+/**
+ * @brief       AoC Puzzle Day 02
+ * 
+ * Results for both puzzles are calculatet while readin th input-file and are written to std::cout.
+ * 
+ * @param fn        filename for input
+ * @return int      errornumer
+ *                  0 - no error
+ *                  1 - file opening error
+ */
 int Puzzle_2_1(const string fn)
 {
     cout << MakeHeadline("** Puzzle 1: Looking for valid passwords",'-') << endl;
@@ -85,9 +100,6 @@ int Puzzle_2_1(const string fn)
             // Rule 2
             if ((c1 == ch_char) ^ (c2 == ch_char))
             {
-#ifdef DEBUG
-                cout << line << endl;   // Only for Debugging 
-#endif
                 iCountValidNew++;
             }
         }
@@ -99,11 +111,12 @@ int Puzzle_2_1(const string fn)
         
     }
 
+    // Writing results to std::cout
     cout << endl;
     cout << "**** Valid passwords    : " << iCountValid << endl;
     cout << "**** Valid passwords NEW: " << iCountValidNew << endl;
 
-    return iCountValid;
+    return 0;
 }
 
 
@@ -112,7 +125,6 @@ int main()
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 02",'=') << endl;
 
     Puzzle_2_1("input.txt");
-    // Puzzle_2_2(v_i);
 
     return 0;
 }
