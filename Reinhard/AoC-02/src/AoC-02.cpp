@@ -14,7 +14,7 @@ const int iPuzzle = 2;      // Puzzle no.
 
 string MakeHeadline(const string head, const char char_frame)
 {
-    // Makeing:
+    // Making:
     //
     // ========
     // = head =
@@ -24,35 +24,11 @@ string MakeHeadline(const string head, const char char_frame)
     stringstream ts;
     int ls = head.length() + 4;
     ts << endl;
-    ts << string(char_frame,ls) << endl;
+    ts << string(ls,char_frame) << endl;
     ts << char_frame << " " << head << " " << char_frame << endl;
+    ts << string(ls,char_frame) << endl;
     ts << endl;
     return ts.str();
-}
-
-int ReadInts(vector<int>& v_i)
-{
-    int count = 0;
-    string fn = "input.txt";
-    ifstream fil(fn);
-
-    // open the input file
-    if (!fil.is_open())
-    {
-        cout << "Could not open file: [" << fn << "]" << endl;
-        return 1;
-    }
-
-    // real all lines
-    int one = 0;
-    string line;
-    while (getline(fil, line))
-    {
-        one = stoi(line);
-        v_i.push_back(one);
-        count++;
-    }
-    return count;
 }
 
 int Puzzle_2_1(const string fn)
@@ -69,6 +45,7 @@ int Puzzle_2_1(const string fn)
 
     // read all lines
     int iCountValid = 0;
+    int iCountValidNew = 0;
     int iLine = 0;
     string line;
     while (getline(fil, line))
@@ -87,13 +64,32 @@ int Puzzle_2_1(const string fn)
         {
             // valid inputline
             int iCountChar = 0;
+            char c1 = '1';
+            char c2 = '2';
+            int ii = 0;
             for (char tc : pw)
             {
+                // Rule for puzzle 1
                 if (tc == ch_char)
                     iCountChar++;
+                // Rule for puzzle 2
+                ii++;
+                if (ii==iMin)
+                    c1 = tc;
+                if (ii==iMax)
+                    c2 = tc;
             }
+            // Rule 1
             if (iCountChar >= iMin && iCountChar <= iMax)
                 iCountValid++;
+            // Rule 2
+            if ((c1 == ch_char) ^ (c2 == ch_char))
+            {
+#ifdef DEBUG
+                cout << line << endl;   // Only for Debugging 
+#endif
+                iCountValidNew++;
+            }
         }
         else
         {
@@ -102,6 +98,10 @@ int Puzzle_2_1(const string fn)
         }
         
     }
+
+    cout << endl;
+    cout << "**** Valid passwords    : " << iCountValid << endl;
+    cout << "**** Valid passwords NEW: " << iCountValidNew << endl;
 
     return iCountValid;
 }
