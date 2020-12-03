@@ -58,19 +58,22 @@ int main()
     vector<string> vs;
     long int iTot = 0L;
 
-    if (ReadStrings("input.txt", vs) > 0)
+    if (ReadStrings("input.txt", vs) < 0)
     {
-        int nT_1 = Puzzle_3_1(vs, 1, 1);
-        int nT_2 = Puzzle_3_1(vs, 3, 1);
-        int nT_3 = Puzzle_3_1(vs, 5, 1);
-        int nT_4 = Puzzle_3_1(vs, 7, 1);
-        int nT_5 = Puzzle_3_1(vs, 1, 2);
+        cout << "--- ERROR Reading strings. Aborting!" << endl;
+        return 1;
+    }   
 
-        long nT_Tot = nT_1 * nT_2 * nT_3 * nT_4 * nT_5;
+    int nT_1 = Puzzle_3_1(vs, 1, 1);
+    int nT_2 = Puzzle_3_1(vs, 3, 1);
+    int nT_3 = Puzzle_3_1(vs, 5, 1);
+    int nT_4 = Puzzle_3_1(vs, 7, 1);
+    int nT_5 = Puzzle_3_1(vs, 1, 2);
 
-        cout << endl;
-        cout << " ***** Total number of Trees: " << nT_Tot << endl << endl;
-    }
+    long nT_Tot = nT_1 * nT_2 * nT_3 * nT_4 * nT_5;
+
+    cout << endl;
+    cout << " ***** Total number of Trees: " << nT_Tot << endl << endl;
 
     return 0;
 }
