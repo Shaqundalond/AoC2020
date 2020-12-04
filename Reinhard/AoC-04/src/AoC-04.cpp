@@ -102,7 +102,7 @@ int Puzzle_4_1(const vector<string> &vs)
  */
 bool CheckForKeyOccurance(const string& string2check, const string& key)
 {
-    string::size_type found = string2check.find(key))
+    string::size_type found = string2check.find(key);
     return (found != string::npos);    
 }
 
