@@ -16,14 +16,14 @@ using namespace std;
 
 
 /**
- * @brief       AoC Puzzle Day 02
+ * @brief       AoC Puzzle Day 03
  * 
  * Results for both puzzles are calculatet while readin th input-file and are written to std::cout.
  * 
  * @param vs        vector<string> with treemap
- * @return int      errornumer
- *                  n - number of trees
- *                 -1 - file opening error
+ * @param dx        increment in x (horiz)
+ * @param dy        increment in y (vert)
+ * @return int      n - number of trees found while traversing the forest
  */
 int Puzzle_3_1(const vector<string> &vs, const int dx, const int dy)
 {

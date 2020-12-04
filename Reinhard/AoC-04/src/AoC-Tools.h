@@ -11,4 +11,5 @@
 
 string MakeHeadline(const string head, const char char_frame);
 int ReadStrings(const string fn, vector<string>& v_s);
+int ReadStrings4P04(const string fn, vector<string>& v_s);
 

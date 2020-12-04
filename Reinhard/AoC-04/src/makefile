@@ -1,19 +1,32 @@
 # Makefile for AoC Projects
 # Reinhard Pfaff 03.12.2020
 
-CC= g++
-CFLAGS= -c
+# Windows or MAC (does it work this way??)
+TWIN:
+	CC= cl
+	CFLAGS= -c
+	OExt=objects
+	TARGET=AoC.exe
+	$(MAKE) $(TARGET)
 
-objects = AoC-03.o AoC-Tools.o
+TMAC:
+	CC= g++
+	CFLAGS= -c
+	OExt=o
+	TARGET=AoC
+	$(MAKE) $(TARGET)
+
+# the Objectfiles
+objects = AoC-04.$(OExt) AoC-Tools.$(OExt)
 
 # Rule for compiling Cpp files
-%.o: %.cpp
+%.$(OExt): %.cpp
 	$(CC) $(CFLAGS) $<
 
-# first target (default if no other target is specified)
-AoC: $(objects)
+# NOW the target
+$(TARGET): $(objects)
 	$(CC) $(objects) -o $@
 
 # Target for cleaning up 
 clean:
-	rm *.o 
+	rm *.$(OExt) 
