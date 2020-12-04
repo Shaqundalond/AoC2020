@@ -14,6 +14,11 @@ using namespace std;
 
 #include "AoC-Tools.h"
 
+// Fcuntion declarations
+int Puzzle_4_1(const vector<string> &vs);
+bool CheckForKeyOccurance(const string& string2check, const string& key);
+
+
 /**
  * @brief main (what else?)
  * 
@@ -64,9 +69,12 @@ int main()
  */
 int Puzzle_4_1(const vector<string> &vs)
 {
+    int iN = 0;
     int iCountValid = 0;
     for (string ts : vs)
     {
+        cout << iN++ << " (" << ts << ")" <<endl;
+
         bool bValid = true;
         bValid &= CheckForKeyOccurance(ts,"byr");
         bValid &= CheckForKeyOccurance(ts,"iyr");
@@ -77,16 +85,16 @@ int Puzzle_4_1(const vector<string> &vs)
         bValid &= CheckForKeyOccurance(ts,"pid");
         if (bValid)
             iCountValid += 1;
-#ifdef DEBUG
+
         if (bValid)
         {
             cout << "  +++ " << ts << endl;
         }
         else
         {
-            cout << "  --- " << ts << end;
+            cout << "  --- " << ts << endl;
         }
-#endif
+
     }
     return iCountValid;
 }
@@ -103,7 +111,122 @@ int Puzzle_4_1(const vector<string> &vs)
 bool CheckForKeyOccurance(const string& string2check, const string& key)
 {
     string::size_type found = string2check.find(key);
-    return (found != string::npos);    
+    bool bFound = (found != string::npos);
+
+    cout << "      " << key << " " ;
+    
+    if (bFound)
+    {
+        try {
+
+            string sVal = string2check.substr(found+4);
+
+            cout << sVal << " ";
+
+            if (key == "byr")
+            {
+                int yr = atoi(sVal.c_str());
+                if (yr < 1920 || yr > 2002)
+                    bFound = false;
+            }
+            else if (key == "iyr")
+            {
+                int yr = atoi(sVal.c_str());
+                if (yr < 2010 || yr > 2020)
+                    bFound = false;            
+            }
+            else if (key == "eyr")
+            {
+                int yr = atoi(sVal.c_str());
+                if (yr < 2020 || yr > 2030)
+                    bFound = false;                       
+            }
+            else if (key == "hgt")
+            {
+                int h = atoi(sVal.c_str());
+                if (2 == sVal.find("in"))
+                {
+                    if ( h < 59 || h > 76)
+                        bFound = false;
+                }
+                else if ( 3 == sVal.find("cm"))
+                {
+                if ( h < 150 || h > 193)
+                        bFound = false;
+                }
+                else
+                {
+                    bFound = false;
+                }           
+            }
+            else if (key == "hcl")
+            {
+                string validchars = "0123456789abcdef";
+                if (sVal.at(0) != '#')
+                {
+                    bFound = false;
+                }
+                else
+                {
+                    for (int i=0; i<6; i++)
+                    {
+                        if (string::npos == validchars.find(sVal.at(i+1)))
+                            bFound = false;
+                    }
+                    if (sVal.length() > 7)
+                    {
+                        // no more than 6 digits allowed!
+                        if (string::npos != validchars.find(sVal.at(7)))
+                            bFound = false;
+                    }
+                }
+            }
+            else if (key == "ecl")
+            {
+                bool bOK = false;
+                if (sVal.find("amb") == 0 ||
+                    sVal.find("blu") == 0 ||
+                    sVal.find("brn") == 0 ||
+                    sVal.find("gry") == 0 ||
+                    sVal.find("grn") == 0 ||
+                    sVal.find("hzl") == 0 ||
+                    sVal.find("oth") == 0)
+                    bOK = true;
+                bFound = bOK;            
+            }
+            else if (key == "pid")
+            {
+                string validchars = "0123456789";
+                for (int i=0; i<9; i++)
+                {
+                    if (string::npos == validchars.find(sVal.at(i)))
+                        bFound = false;
+                }
+                if (sVal.length() > 9)
+                {
+                    // no more than 9 digits allowed!
+                    if (string::npos != validchars.find(sVal.at(9)))
+                        bFound = false;
+                }
+
+            }
+            else if (key == "cid")
+            {
+                // nobody cares
+            }
+
+        }
+        catch(out_of_range)
+        {
+            cout << " EXCEPTION: Out-of-range!" << endl;
+            bFound = false;
+        }
+
+    }
+
+    cout << bFound << endl;
+    
+    return bFound;    
 }
 
 

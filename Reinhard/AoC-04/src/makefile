@@ -2,19 +2,19 @@
 # Reinhard Pfaff 03.12.2020
 
 # Windows or MAC (does it work this way??)
-TWIN:
-	CC= cl
-	CFLAGS= -c
-	OExt=obj
-	TARGET=AoC.exe
-	$(MAKE) $(TARGET)
+#TWIN:
+#	CC= cl
+#	CFLAGS= -c
+#	OExt=obj
+#	TARGET=AoC.exe
+#	$(MAKE) $(TARGET)
 
-TMAC:
-	CC= g++
-	CFLAGS= -c
-	OExt=o
-	TARGET=AoC
-	$(MAKE) $(TARGET)
+#TMAC:
+CC= g++
+CFLAGS= -c -Wc++11-extensions
+OExt=o
+TARGET=AoC
+#	$(MAKE) $(TARGET)
 
 # the Objectfiles
 objects = AoC-04.$(OExt) AoC-Tools.$(OExt)
