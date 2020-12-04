@@ -5,7 +5,7 @@
 TWIN:
 	CC= cl
 	CFLAGS= -c
-	OExt=objects
+	OExt=obj
 	TARGET=AoC.exe
 	$(MAKE) $(TARGET)
 
