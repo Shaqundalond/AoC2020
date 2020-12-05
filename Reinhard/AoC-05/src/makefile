@@ -11,13 +11,13 @@
 
 #TMAC:
 CC= g++
-CFLAGS= -c -Wc++11-extensions
+CFLAGS= -c -std=c++14
 OExt=o
 TARGET=AoC
 #	$(MAKE) $(TARGET)
 
 # the Objectfiles
-objects = AoC-04.$(OExt) AoC-Tools.$(OExt)
+objects = AoC-05.$(OExt) AoC-Tools.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp
