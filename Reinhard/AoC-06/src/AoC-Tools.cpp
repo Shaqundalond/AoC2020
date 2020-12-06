@@ -213,3 +213,40 @@ int ReadMultilineStrings(const string fn, vector<string>& v_s, const string sep)
     return count;
 }
 
+/**
+ * @brief explode 
+ * 
+ * * converts a string in a vector<string>
+ * 
+ * @param s     - string to "explode"
+ * @param sep   - string which contains separators (more than one allowed)
+ * @return const vector<string> 
+ */
+const vector<string> explode(const string& s, const string sep)
+{
+	string buff{""};
+	vector<string> v;
+	
+	for(auto n:s)
+	{
+        size_t pos = sep.find(n);
+		if(string::npos == pos)
+        {
+            buff += n;
+        }
+        else
+        {
+            // char in sep!
+		    if(pos >= 0 && buff != "") 
+            { 
+                v.push_back(buff); 
+                buff = ""; 
+            }
+        }
+	}
+
+	if(buff != "") 
+        v.push_back(buff);
+	
+	return v;
+}
