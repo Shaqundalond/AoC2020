@@ -15,7 +15,7 @@ using namespace std;
 #include "AoC-Tools.h"
 
 // Fcuntion declarations
-int Puzzle_5_1(const vector<string> &vs);
+int Puzzle_5(const vector<string> &vs, int iPuzzle);
 bool CheckForKeyOccurance(const string& string2check, const string& key);
 
 
@@ -38,8 +38,12 @@ int main()
 
     // first puzzle of day 04
     cout << MakeHeadline(" ** Puzzle 1: Highest Seat-ID",'~') << endl;
-    int iHS_ID = Puzzle_5_1(vs);
+    int iHS_ID = Puzzle_5(vs,1);
     cout << " == Highest seat ID: " << iHS_ID << endl << endl;
+
+    cout << MakeHeadline(" ** Puzzle 2: MySeat",'~') << endl;
+    int iMySeatID = Puzzle_5(vs,2);
+    cout << endl << " == My seat ID: " << iMySeatID << endl << endl;
 
     return 0;
 }
@@ -59,12 +63,15 @@ int main()
  * Seat ID = row * 8 + col
  * 
  * @param vs        vector<string> with treemap
+ * @param iPuzzle   - 1 oder - 2
  * @return int      n - highest seat ID
  */
-int Puzzle_5_1(const vector<string> &vs)
+int Puzzle_5(const vector<string> &vs, int iPuzzle)
 {
     int iID = 0;
     int iIDMax = 0;
+    int iMySeat = 0;
+    vector <int> seatIDs(1024,0);
     for (string ts : vs)
     {
         if (ts.length() < 10)
@@ -94,10 +101,41 @@ int Puzzle_5_1(const vector<string> &vs)
 
         cout << ts << " = " << iID << endl;
 
+        if (iID < seatIDs.size())
+            seatIDs[iID]++;
+
         if (iID > iIDMax)
             iIDMax = iID;
     }
-    return iIDMax;
+
+    // finding the seat not in the list but seatID +1 and seatID-1 are in the thist
+    for (int i=0; i < 1024; i++)
+    {
+        if (seatIDs[i] == 0 && seatIDs[i-1] > 0 && seatIDs[i+1] > 0 && i >0 && i < 1023)
+        {
+            cout << "*";
+            iMySeat = i;
+        }
+        else if (seatIDs[i] == 0)
+        {
+           cout << ".";
+        }
+         else
+         {
+            cout << seatIDs[i];             
+         }
+
+        if ((i+1) % 8 == 0)
+            cout << endl;
+        else
+            cout << "  ";
+    }
+
+    if (iPuzzle == 1)
+        return iIDMax;
+    else
+        return iMySeat;
+        
 }
 
 
