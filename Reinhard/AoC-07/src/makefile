@@ -17,7 +17,7 @@ TARGET=AoC
 #	$(MAKE) $(TARGET)
 
 # the Objectfiles
-objects = AoC-06.$(OExt) AoC-Tools.$(OExt)
+objects = AoC-07.$(OExt) AoC-Tools.$(OExt) Bag.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp

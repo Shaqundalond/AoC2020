@@ -18,8 +18,9 @@ using namespace std;
 
 // Function declarations
 // =====================
-int MakeVectorOfBags(const vector<string> &vs, vector<Bags> &vbags);
+int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags);
 int Puzzle_7(const vector<Bag> &vbags, int iPuzzle);
+int FindPathTo(const string sLookFor, const vector<Bag> &vbags);
 
 
 /**
@@ -33,7 +34,7 @@ int main()
 
     // Reading input strings
     vector<string> vs;
-    if (ReadMultilineStrings("input.txt", vs, "") < 0)
+    if (ReadStrings("input.txt", vs) < 0)
     {
         cout << "---ERROR Reading strings. Aborting!" << endl;
         return 1;
@@ -45,8 +46,8 @@ int main()
 
     // first puzzle of day 
     cout << MakeHeadline(" ** Puzzle 1: Counting number of possible bags",'~') << endl;
-    int npossibleBags = Puzzle_7(vs,1);
-    cout << " == Nnumber of possible bags: " << npossibleBags << endl;
+    int npossibleBags = Puzzle_7(vbags,1);
+    cout << " == Number of possible bags: " << npossibleBags << endl;
 
     return 0;
 }
@@ -65,7 +66,7 @@ int main()
  * muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
  * shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
  * dark olive bags contain 3 faded blue bags, 4 dotted black bags.
- * vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
+ * vibrant plum bags contain 5 faded blue bags, 6 dotted black bags, ...
  * faded blue bags contain no other bags.
  * dotted black bags contain no other bags.
  * 
@@ -85,44 +86,51 @@ int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags)
         // convert
         vector<string> tss = explode(ts," ");
 
-        if (tss.size() == 7 || tss.size() == 8 || tss.size() == 12)
+        int is = 0;     // Index into tss
+        // first, ther must be at least 7 string to identify myself
+        if (tss.size() >= 7)
         {
-            if (tss.size() >= 7)
-            {
-                // no, 1, 2 sub-bags
-                string iam = tss[0] + " " + tss[1];
-                oneBag.m_ID = iam;
-            }
-
-            if (tss.size() >= 8)
-            {
-                // 1 sub-bag
-                int nSub = atoi(tss[4]);
-                string SubID = tss[5] + " " + tss[6];
-                oneBag.m_nBags.push_back(nSub);
-                oneBag.m_BagsID.push_back(SubID);
-            }
-
-            if (tss.size() == 12)
-            {
-                // 1 sub-bag
-                int nSub = atoi(tss[4]);
-                string SubID = tss[5] + " " + tss[6];
-                oneBag.m_nBags.push_back(nSub);
-                oneBag.m_BagsID.push_back(SubID);
-            }
-
-            vbags.push_back(oneBag);
+            // no, 1, 2 sub-bags
+            string iam = tss[0] + " " + tss[1];
+            oneBag.m_ID = iam;
+            is += 4;
         }
-        else
+
+        // rest of the line
+        while ((is+4) <= tss.size())
         {
-            cout << " ** (L:" << iLine << "ERROR in input.txt. Unexpected format " << endl;
+            // not yet done
+            // 1 sub-bag
+            int nSub = atoi(tss[is].c_str());
+            string SubID = tss[is+1] + " " + tss[is+2];
+            oneBag.m_nBags.push_back(nSub);
+            oneBag.m_BagsID.push_back(SubID);
+            is += 4;
+        }
+
+        vbags.push_back(oneBag);
+
+        if (is < tss.size())
+        {
+            cout << " ** (L:" << iLine << ") ERROR in input.txt. Unexpected format! is=" << is << " size=" << tss.size() << endl;
             cout << "       " << ts << endl;
         }
 
         iLine += 1;
     }
 
+    // Debugging
+    if (0)
+    {
+        int i = 0;
+        for (auto tb : vbags)
+        {
+            cout << "** " << i << "  " << tb.m_ID << endl;
+            for (int ib = 0;ib < tb.m_BagsID.size(); ib++)
+                cout << "       - " << tb.m_nBags[ib] << " " << tb.m_BagsID[ib] << endl;
+            i += 1;
+        }
+    }
     return vbags.size();
 }
 
@@ -138,41 +146,56 @@ int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags)
  */
 int Puzzle_7(const vector<Bag> &vbags, int iPuzzle)
 {
-    int iN = 0;
-    int iCountYes = 0;
-
-    for (Bag tb : vbags)
-    {
-        vector<int> nchar(26,0);
- 
-        // getting index of each character (never trust any data at this point, since our array is limited in size)
-        for (char tch :ts)
-        {
-            int ich = tch - 'a';
-            if (ich >= 0 && ich < 26)
-                nchar[ich] += 1;
-            else
-                cout << " *** ERROR unknown character in line " << iN << " [" << ts << "]  char='" << tch << "]" << endl;
-        }
-
-        // Counting entries > 0
-        int nyes = 0;
-        for (int nch : nchar)
-        {
-            if (nch > 0)
-                nyes += 1;
-        }
-        iCountYes += nyes;
-
-        // Debugging only
-        cout << nyes << " -- " << ts << endl;
-
-        // next Line
-        iN += 1;
-    }
-    return iCountYes;
+    int iCount = FindPathTo("shiny gold", vbags);
+    
+    return iCount;
 }
 
+bool InBag(const Bag &tb, const string &ts)
+{
+    for (auto tID : tb.m_BagsID)
+        if (tID == ts)
+            return true;
 
+    return false;   // No, not found in this bag
+}
+
+bool InList(const vector<string> &vs,const string &ss)
+{
+    for (auto cs : vs)
+        if ( cs == ss)
+            return true;
+
+    return false;
+}
+
+int FindPathTo(const string sLookFor, const vector<Bag> &vbags)
+{
+    vector<string>sIDs;
+
+    // Step 1: finding all paths w/ direct content ot sLookFor
+    for (auto tb : vbags)
+        if (InBag(tb,sLookFor))
+        {
+            sIDs.push_back(tb.m_ID);    // this is a valid top level
+            cout << " <== " << tb.m_ID << endl;
+        }
+
+    // Now look for all already found top level whether they are referenced
+    for (int i=0; i<sIDs.size(); i++)
+    {
+        for (auto tb : vbags)
+            if (!InList(sIDs,tb.m_ID))
+            {
+                if (InBag(tb,sIDs[i]))
+                {
+                    sIDs.push_back(tb.m_ID);    // this is a valid top level
+                    cout  << " <-- " << tb.m_ID << endl;
+                }
+            }
+    }
+
+    return sIDs.size();
+}
 
 
