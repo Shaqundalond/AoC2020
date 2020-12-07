@@ -21,6 +21,7 @@ using namespace std;
 int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags);
 int Puzzle_7(const vector<Bag> &vbags, int iPuzzle);
 int FindPathTo(const string sLookFor, const vector<Bag> &vbags);
+int CountBags(const string sLookFor, const vector<Bag> &vbags);
 
 
 /**
@@ -48,6 +49,11 @@ int main()
     cout << MakeHeadline(" ** Puzzle 1: Counting number of possible bags",'~') << endl;
     int npossibleBags = Puzzle_7(vbags,1);
     cout << " == Number of possible bags: " << npossibleBags << endl;
+
+    // second puzzle of day 
+    cout << MakeHeadline(" ** Puzzle 2: Counting bags for shiny gold",'~') << endl;
+    int nTotBags = Puzzle_7(vbags,2);
+    cout << " == Number of bags: " << nTotBags << endl;
 
     return 0;
 }
@@ -146,7 +152,16 @@ int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags)
  */
 int Puzzle_7(const vector<Bag> &vbags, int iPuzzle)
 {
-    int iCount = FindPathTo("shiny gold", vbags);
+    int iCount = 0;
+    if (iPuzzle == 1)
+    {
+        iCount = FindPathTo("shiny gold", vbags);
+    }
+    else
+    {
+        iCount = CountBags("shiny gold", vbags);
+    }
+    
     
     return iCount;
 }
@@ -167,6 +182,24 @@ bool InList(const vector<string> &vs,const string &ss)
             return true;
 
     return false;
+}
+
+int CountBags(const string sLookFor, const vector<Bag> &vbags)
+{
+    int iCount = 0;
+
+    // Step 1: finding the entry for first
+    for (auto tb : vbags)
+    {
+        if (tb.m_ID == sLookFor)
+        {
+            for (int i= 0; i < tb.m_BagsID.size();i++)
+            {
+                iCount += tb.m_nBags[i] * (CountBags(tb.m_BagsID[i],vbags) + 1);
+            }
+        }
+    }
+    return iCount;
 }
 
 int FindPathTo(const string sLookFor, const vector<Bag> &vbags)
@@ -197,5 +230,6 @@ int FindPathTo(const string sLookFor, const vector<Bag> &vbags)
 
     return sIDs.size();
 }
+
 
 
