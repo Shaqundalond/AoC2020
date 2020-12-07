@@ -58,14 +58,14 @@ bool read_input( vector<string> &vect, const string &input )
 class Rule
 {
 	string name;
-	vector<string> vs_subbags;
-	vector<int> vl_subamount;
-
 	public:
+		vector<string> vs_subbags;
+		vector<int> vl_subamount;
 		Rule (const string &text);
 		string out();
 		bool contains(const string &child);
 		string parent();
+		bool is_parent(const string &text ) const ;
 };
 
 Rule::Rule(const string &text)
@@ -122,6 +122,7 @@ Rule::Rule(const string &text)
 
 }
 
+
 bool Rule::contains(const string &child)
 {
 
@@ -131,6 +132,11 @@ bool Rule::contains(const string &child)
 	}
 
 	return false;
+}
+
+bool Rule::is_parent(const string &text) const
+{
+	return ( name.find(text) != string::npos );
 }
 
 string Rule::parent()
@@ -160,6 +166,8 @@ string Rule::out()
 
 }
 
+
+
 void recursive_searchbag(const string &search, vector<string> &topbags, const vector<Rule> &ruleset)
 {
 	for ( Rule rule : ruleset)
@@ -175,6 +183,32 @@ void recursive_searchbag(const string &search, vector<string> &topbags, const ve
 	return;
 }
 
+int recursive_subbags(const string &parent, const vector<Rule> ruleset)
+{
+	int count = 0;
+	// find parent in ruleset
+	for (int i = 0; i < ruleset.size(); i++)
+	{
+		if( ruleset[i].is_parent(parent))
+		{
+			// iterate over children
+			if ( ruleset[i].vs_subbags[0] == "0" ) // we reached the end
+			{
+				return 0;
+			}
+
+			for( int j = 0; j < ruleset[i].vs_subbags.size() ; j++ )
+			{
+				count += ruleset[i].vl_subamount[j] + (ruleset[i].vl_subamount[j] * recursive_subbags(ruleset[i].vs_subbags[j], ruleset));
+			}
+		}
+	}
+
+	return count;
+
+}
+
+
 
 int main()
 {
@@ -187,7 +221,7 @@ int main()
     string s_start = "shiny gold";	// Search for this bag
     vector<string> vs_topbags;		// store the topbags
     //vs_topbags.push_back("shiny gold");	// needed to exclude endless recursion
-
+    int count = 0;
 
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 07",'=') << endl;
 
@@ -207,10 +241,10 @@ int main()
     }
 
     cout << "Ruleset created\n";
-    /* for (Rule rule : vr_ruleset) */
-    /* { */
-	    /* cout << rule.out(); */
-    /* } */
+    for (Rule rule : vr_ruleset)
+    {
+	    cout << rule.out();
+    }
 
     cout << "starting Search\n";
 
@@ -218,6 +252,8 @@ int main()
 
     cout << "Number of Bags: " << vs_topbags.size() << "\n";
 
+    count = recursive_subbags(s_start, vr_ruleset);
+    cout << "Number of Bags in " << s_start << ": " << count << '\n';
 
     return 1;
 
