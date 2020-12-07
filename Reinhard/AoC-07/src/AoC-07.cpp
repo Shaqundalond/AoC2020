@@ -19,7 +19,7 @@ using namespace std;
 // Function declarations
 // =====================
 int MakeVectorOfBags(const vector<string> &vs, vector<Bags> &vbags);
-int Puzzle_7(const vector<string> &vs);
+int Puzzle_7(const vector<Bag> &vbags, int iPuzzle);
 
 
 /**
@@ -35,7 +35,7 @@ int main()
     vector<string> vs;
     if (ReadMultilineStrings("input.txt", vs, "") < 0)
     {
-        cout << "--- ERROR Reading strings. Aborting!" << endl;
+        cout << "---ERROR Reading strings. Aborting!" << endl;
         return 1;
     }   
 
@@ -43,12 +43,10 @@ int main()
     vector<Bag> vbags;
     int nBags = MakeVectorOfBags(vs, vbags);
 
-
     // first puzzle of day 
-    cout << MakeHeadline(" ** Puzzle 1: Counting valid Yes-answers",'~') << endl;
-    int iYes = Puzzle_6(vs);
-
-    cout << " == Nnumber of Yes: " << iYes << endl;
+    cout << MakeHeadline(" ** Puzzle 1: Counting number of possible bags",'~') << endl;
+    int npossibleBags = Puzzle_7(vs,1);
+    cout << " == Nnumber of possible bags: " << npossibleBags << endl;
 
     return 0;
 }
@@ -135,15 +133,15 @@ int MakeVectorOfBags(const vector<string> &vs, vector<Bag> &vbags)
  * - Readl als groups spread over more than one line and count the number of different characters
  * - add them all up to the result
  * 
- * @param vs        vector<string> with treemap
+ * @param vs        vector<bag>
  * @return int      n - number of yes
  */
-int Puzzle_6(const vector<string> &vs)
+int Puzzle_7(const vector<Bag> &vbags, int iPuzzle)
 {
     int iN = 0;
     int iCountYes = 0;
 
-    for (string ts : vs)
+    for (Bag tb : vbags)
     {
         vector<int> nchar(26,0);
  
