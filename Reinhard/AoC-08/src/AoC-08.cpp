@@ -86,18 +86,22 @@ int Puzzle_8( MyProgram &prog, int iPuzzle)
         
         while (cpu.Run(tp) == -1)
         {
+            if (ipos >= tp.size())
+                return -2;
+
             cout << " ** Now trying pass: " << ipos << endl;
-            // restore original progamm
+ 
+            // restore original program
             tp = prog;
+            cpu.m_ip = 0;
+            
             // find next nop or jmp
             if (tp[ipos].m_Code == jmp)
                 tp[ipos].m_Code = nop;
             else if (tp[ipos].m_Code == nop)
                 tp[ipos].m_Code = jmp;
             ipos += 1;
-            if (ipos >= tp.size())
-                return -2;
-        }
+       }
         return cpu.m_acc;
         
     }
