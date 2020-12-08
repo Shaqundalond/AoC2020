@@ -47,6 +47,11 @@ int main()
     int acc = Puzzle_8(prog,1);
     cout << " == Content of accumulator: " << acc << endl;
 
+    // second puzzle of day 
+    cout << MakeHeadline(" ** Puzzle 2: fix program",'~') << endl;
+    acc = Puzzle_8(prog,2);
+    cout << " == Content of accumulator: " << acc << endl;
+
     return 0;
 }
 
@@ -71,9 +76,29 @@ int Puzzle_8( MyProgram &prog, int iPuzzle)
     if (iPuzzle == 1)
     {
         iResult = cpu.Run(prog);
+        if (iResult == -1)
+            return cpu.m_acc;
     }
     else
     {
+        MyProgram tp = prog;
+        int ipos=0;
+        
+        while (cpu.Run(tp) == -1)
+        {
+            cout << " ** Now trying pass: " << ipos << endl;
+            // restore original progamm
+            tp = prog;
+            // find next nop or jmp
+            if (tp[ipos].m_Code == jmp)
+                tp[ipos].m_Code = nop;
+            else if (tp[ipos].m_Code == nop)
+                tp[ipos].m_Code = jmp;
+            ipos += 1;
+            if (ipos >= tp.size())
+                return -2;
+        }
+        return cpu.m_acc;
         
     }
     

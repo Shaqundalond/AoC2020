@@ -83,7 +83,7 @@ int MyCPU::OneOp( MyCPU_Instruction &op)
     }
 
     // kill this op
-    op.m_Code = -1;
+    op.m_Code = -op.m_Code;
 
     return 0;
 }
@@ -91,10 +91,16 @@ int MyCPU::OneOp( MyCPU_Instruction &op)
 int MyCPU::Run( MyProgram &prog)
 {
     m_ip = 0;
-    while (prog[m_ip].m_Code >= 0)
+    while (true)
     {
         OneOp(prog[m_ip]);
+        // check for unknown code
+        if (prog[m_ip].m_Code < 0)
+            return -1;
+        // check for normal end (ip behind program)
+        if (m_ip >= prog.size())
+            return 0;
     }
  
-    return m_acc;
+    return 4711;    // unreachable code
 }
