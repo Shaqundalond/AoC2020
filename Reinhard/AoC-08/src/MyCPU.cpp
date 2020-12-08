@@ -91,15 +91,16 @@ int MyCPU::OneOp( MyCPU_Instruction &op)
 int MyCPU::Run( MyProgram &prog)
 {
     m_ip = 0;
+    m_acc = 0;
     while (true)
     {
         OneOp(prog[m_ip]);
-        // check for unknown code
-        if (prog[m_ip].m_Code < 0)
-            return -1;
         // check for normal end (ip behind program)
         if (m_ip >= prog.size())
             return 0;
+        // check for unknown code
+        if (prog[m_ip].m_Code < 0)
+            return -1;
     }
  
     return 4711;    // unreachable code
