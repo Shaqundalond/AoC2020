@@ -19,6 +19,7 @@ enum opCode {
 
 class MyCPU_Instruction
 {
+public:
     MyCPU_Instruction();
     ~MyCPU_Instruction();
 
@@ -27,17 +28,20 @@ class MyCPU_Instruction
     int m_p2;
 
     void FromString(string s);
-}
+};
 
-typedef MyMemory : vector<MyCPU_Instruction>;
+typedef vector<MyCPU_Instruction> MyProgram;
 
 class MyCPU
 {
+public:
+
     MyCPU();
     ~MyCPU();
 
     int m_acc;      // accumulator
     int m_ip;       // instruction pointer
 
-    int Perform(MyCPU_Instruction);
-}
+    int OneOp( MyCPU_Instruction &op);
+    int Run( MyProgram &prog);
+};

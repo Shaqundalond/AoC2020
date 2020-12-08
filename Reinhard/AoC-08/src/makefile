@@ -17,7 +17,7 @@ TARGET=AoC
 #	$(MAKE) $(TARGET)
 
 # the Objectfiles
-objects = AoC-08.$(OExt) AoC-Tools.$(OExt) Bag.$(OExt)
+objects = AoC-08.$(OExt) AoC-Tools.$(OExt) MyCPU.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp
