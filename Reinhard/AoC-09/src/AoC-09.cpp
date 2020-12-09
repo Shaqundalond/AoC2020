@@ -150,20 +150,20 @@ int Puzzle_9(vector<int> iList)
         }
         else if (iSum > iSpecial)
         {
+            iSum -= iList[i1];
             i1 += 1;
             if (i1 >= i2 || i1 >= iList.size())
             {
                 cout << " !! ERROR i1 out of range: " << i1 << " i2: " << i2 << endl;
                 break;
             }
-            iSum -= iList[i1-1];
         }
         else
         {
             int iMin = iList[i1];
             int iMax = iMin;
             // set found - now find min and max
-            for (int i=i1; i <=i2; i++)
+            for (int i = i1; i <= i2; i++)
             {
                 iMin = min(iMin,iList[i]);
                 iMax = max(iMax,iList[i]);
