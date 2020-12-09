@@ -125,11 +125,57 @@ int Puzzle_9(vector<int> iList)
                     iMax = max(iMax,iList[i]);
                 }
                 iMinMax = iMin + iMax;
-                cout << " ** PART 2 -- from " << i1 << " to " << i2 << " the sum of min and Max: " << iMinMax << endl; 
-                break;
+                cout << " ** PART 2 (a) -- from " << i1 << " to " << i2 << " the sum of min and Max: " << iMinMax << endl; 
+                i1 = i2 = iList.size();     // this will break all for loops
+                break;                      // not really neaded
             }
         }
     } 
+
+    // Variante zwei
+    i1 = 0; 
+    i2 = i1 + 1;
+    int iSum = iList[i1];
+    while (true)
+    {
+        if (iSum < iSpecial)
+        {
+            i2 += 1;
+            if (i2 >= iList.size())
+            {
+                cout << " !! ERROR i2 > iList.size()" << endl;
+                break;
+            }
+            iSum += iList[i2];
+        }
+        else if (iSum > iSpecial)
+        {
+            i1 += 1;
+            if (i1 >= i2 || i1 >= iList.size())
+            {
+                cout << " !! ERROR i1 out of range: " << i1 << " i2: " << i2 << endl;
+                break;
+            }
+            iSum -= iList[i1-1];
+        }
+        else
+        {
+            int iMin = iList[i1];
+            int iMax = iMin;
+            // set found - now find min and max
+            for (int i=i1; i <=i2; i++)
+            {
+                iMin = min(iMin,iList[i]);
+                iMax = max(iMax,iList[i]);
+            }
+            iMinMax = iMin + iMax;
+            cout << " ** PART 2 (b) -- from " << i1 << " to " << i2 << " the sum of min and Max: " << iMinMax << endl; 
+            i1 = i2 = iList.size();     // this will break all for loops
+            break;                      // not really neaded
+        }
+        
+    }
+
 
     return 0;
 }
