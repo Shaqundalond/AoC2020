@@ -17,7 +17,7 @@ using namespace std;
 
 // Function declarations
 // =====================
-int Puzzle_9(vector <int> iList, int iPuzzle);
+int Puzzle_9(vector <int> iList);
 
 
 /**
@@ -27,7 +27,8 @@ int Puzzle_9(vector <int> iList, int iPuzzle);
  */
 int main()
 {
-    cout << MakeHeadline("Advent of Code 2020 Puzzle # 09",'=');
+
+    cout << endl << MakeHeadline("Advent of Code 2020 Puzzle # 09",'*');
 
     // Reading input strings
     vector<string> vs;
@@ -43,9 +44,7 @@ int main()
         iList[i] = atoi(vs[i].c_str());
 
     // first puzzle of day 
-    cout << MakeHeadline(" ** Puzzle 1: finding sum of 2 ints from last 25 ints behind",'~') << endl;
-    int iResult = Puzzle_9(iList,1);
-    cout << " == Value : " << iResult << endl;
+    int iResult = Puzzle_9(iList);
 
     return 0;
 }
@@ -56,15 +55,23 @@ int main()
 /**
  * @brief           AoC Puzzle
  * 
- * searching a number which is NOT the sum of any two ints from the last 25 ints behind
+ * Part 1:
+ * - searching a number which is NOT the sum of any two ints from the last 25 ints behind.
+ * 
+ * Part 2:
+ * - searching a cobtigous set of numbers which sums up to this number; add the smallest und largest numer in this set.
+ * 
  * 
  * @param vector<int>   list of ints
- * @return int          n - number of yes
+ * @return int          1 - finished part 1
+ *                      2 - finished part 1 and part 2
+ *                     -1 - Error solving part 1
  */
-int Puzzle_9(vector<int> iList, int iPuzzle)
+int Puzzle_9(vector<int> iList)
 {
     int iResult = 0;
     int ci = 0;
+    int iSpecial = 0;
 
     for (ci = 25; ci < iList.size(); ci++)
     {
@@ -74,7 +81,9 @@ int Puzzle_9(vector<int> iList, int iPuzzle)
         {
             for (int j = i+1; j < 25; j++)
             {
-                int iSum = iList[i] + iList[j];
+                int ti = ci - 25 + i;
+                int tj = ci - 25 + j;
+                int iSum = iList[ti] + iList[tj];
                 if (iSum == iTarget)
                 {
                     found = true; // Hipp hipp
@@ -86,12 +95,42 @@ int Puzzle_9(vector<int> iList, int iPuzzle)
         if (!found)
         {
             // this number is not the sum of two of the last 25 ints
-            return iList[ci];
+            iSpecial = iList[ci];
+            cout << " ** PART 1 -- @ i= " << ci << " Value is: " << iSpecial << endl;
+            break;
         }
     }
 
-    // should be unreachable
-    cout << " ERROR: F***! no two ints found!" << endl;
-    return -1;
+    // Continuing w/ part 2
+    int i1 = 0;
+    int i2 = 0;
+
+    int iMinMax = -1;
+
+    for (i1 = 0; i1 < iList.size()-1; i1++)
+    {
+        i2 = i1+1;
+        int iSum = iList[i1];
+        for (i2 = i1+1; i2 < iList.size(); i2++)
+        {
+            iSum += iList[i2];
+            if (iSum == iSpecial)
+            {
+                int iMin = iList[i1];
+                int iMax = iMin;
+                // set found - now find min and max
+                for (int i=i1; i <=i2; i++)
+                {
+                    iMin = min(iMin,iList[i]);
+                    iMax = max(iMax,iList[i]);
+                }
+                iMinMax = iMin + iMax;
+                cout << " ** PART 2 -- from " << i1 << " to " << i2 << " the sum of min and Max: " << iMinMax << endl; 
+                break;
+            }
+        }
+    } 
+
+    return 0;
 }
 
