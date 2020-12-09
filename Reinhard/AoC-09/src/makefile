@@ -1,5 +1,5 @@
 # Makefile for AoC Projects
-# Reinhard Pfaff 03.12.2020
+# Reinhard Pfaff 09.12.2020
 
 # Windows or MAC (does it work this way??)
 #TWIN:
@@ -17,7 +17,7 @@ TARGET=AoC
 #	$(MAKE) $(TARGET)
 
 # the Objectfiles
-objects = AoC-08.$(OExt) AoC-Tools.$(OExt) MyCPU.$(OExt)
+objects = AoC-09.$(OExt) AoC-Tools.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp
