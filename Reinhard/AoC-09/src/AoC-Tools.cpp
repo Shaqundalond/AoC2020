@@ -32,7 +32,7 @@ string MakeHeadline(const string head, const char char_frame)
 {
     stringstream ts;
     int ls = head.length() + 4;
-    ts << endl;
+
     ts << string(ls,char_frame) << endl;
     ts << char_frame << " " << head << " " << char_frame << endl;
     ts << string(ls,char_frame) << endl;
