@@ -65,7 +65,7 @@ int main()
  * - Readl als groups spread over more than one line and count the number of different characters
  * - add them all up to the result
  * 
- * @param vs        vector<bag>
+ * @param prog        program
  * @return int      n - number of yes
  */
 int Puzzle_8( MyProgram &prog, int iPuzzle)
@@ -75,7 +75,8 @@ int Puzzle_8( MyProgram &prog, int iPuzzle)
 
     if (iPuzzle == 1)
     {
-        iResult = cpu.Run(prog);
+        MyProgram tp = prog;
+        iResult = cpu.Run(tp);
         if (iResult == -1)
             return cpu.m_acc;
     }
