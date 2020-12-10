@@ -63,6 +63,9 @@ int Puzzle_10(vector<int> iList, int iPuzzle)
 {
     int iResult = 0;
     
+    // Step 0: Insert 0, since we begin at 0
+    iList.push_back(0);
+
     // Step 1: Sort the List
     sort (iList.begin(), iList.end());
 
@@ -79,7 +82,7 @@ int Puzzle_10(vector<int> iList, int iPuzzle)
             n_i3++;
     }
 
-    int iResult = n_i1 * n_i3;
+    iResult = n_i1 * n_i3;
 
     // should be unreachable
     cout << " ** Result: " << iResult << endl;
