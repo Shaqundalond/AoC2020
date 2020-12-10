@@ -54,7 +54,7 @@ bool read_input( vector<string> &vect, const string &input )
     return true;
 }
 
-long recursive_stepsearch(vector<int> &vect, long (&al_stepcount)[], int i_step)
+long recursive_stepsearch(vector<int> &vect, long al_stepcount[], int i_step)
 {
 	long l_count = 0;
 	//Abort this ship
@@ -132,7 +132,7 @@ int main()
 
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 10 PART 2",'=') << endl;
 
-    long al_stepcount[vi_input.back() + 1 ]= {};
+    long al_stepcount[vi_input.back() + 1 ];
 
     l_combinations = recursive_stepsearch(vi_input, al_stepcount, vi_input.back());
 
