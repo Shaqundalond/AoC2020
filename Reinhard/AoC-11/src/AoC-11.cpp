@@ -100,12 +100,12 @@ int Puzzle_11(vector<string> &sList)
     bool bChange = true;
     int iCount = 0;
 
-    vector<string> aL;
-    vector<string> bL;
+    vector<string> aL(sList.size());
+    vector<string> bL(sList.size());
 
-    for (auto ts : sList) {
-        aL.push_back(ts);
-        bL.push_back(ts);
+    for (int i = 0; i < sList.size(); i++) {
+        aL[i] = sList[i];
+        bL[i] = sList[i];
     }
 
     int iState = 0;     // no special meaning; just r1 -> aL and r2 -> bL
