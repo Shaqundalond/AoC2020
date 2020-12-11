@@ -17,7 +17,7 @@ using namespace std;
 
 // Function declarations
 // =====================
-int Puzzle_11(const vector <String> sList);
+int Puzzle_11(vector <string> &sList);
 
 
 /**
@@ -55,6 +55,7 @@ int main()
 bool NextGen(vector<string> &va, vector<string> &vb)
 {
     bool bChanged = false;
+    int nS=0;
     for (int i = 0; i < va.size(); i++)
     {
         for (int j = 0; j < va[i].size(); j++)
@@ -62,7 +63,7 @@ bool NextGen(vector<string> &va, vector<string> &vb)
             char ta = va[i][j];
             if (ta == 'L')
             {
-                int nS = count_surrounding(va,i,j,'#');
+                nS = count_surrounding(va,i,j,'#');
                 if (nS == 0) {
                     vb[i][j] = '#';
                     bChanged = true;
@@ -70,14 +71,18 @@ bool NextGen(vector<string> &va, vector<string> &vb)
             }
             else if (ta == '#')
             {
-                int nS = count_surrounding(va,i,j,'#');
+                nS = count_surrounding(va,i,j,'#');
                 if (nS >= 4) {
                     vb[i][j] = 'L';
                     bChanged = true;
                 }
             }
+            cout << nS;
         }
+        cout << endl;
     }
+
+
     return bChanged;
 }
 
@@ -90,31 +95,37 @@ bool NextGen(vector<string> &va, vector<string> &vb)
  * @param vector<string>   list of strings
  * @return int             0
  */
-int Puzzle_11(const vector<string> &sList)
+int Puzzle_11(vector<string> &sList)
 {
-    int iCount = 0;
     bool bChange = true;
+    int iCount = 0;
 
     vector<string> aL = sList;
     vector<string> bL = sList;
 
     int iState = 0;     // no special meaning; just r1 -> aL and r2 -> bL
     int nGen = 0;       // Number of generations
-
+        
     while (bChange)
     {
         nGen++;
-        bChange = false; // nothing changed so far...
         if (iState == 0) {
             bChange = NextGen(aL,bL);
             iState = 1;
         } else {
             bChange = NextGen(bL,aL);
             iState = 0;
-        }    
+        }
+
+        iCount = count_cX(bL,'#');
+        cout << " -- Gen: " << nGen; 
+        cout << " iState: " << iState; 
+        cout << " Count: " << iCount;
+        cout << " cChange: " << bChange << endl;
+        int iWait =0;
+        cin >> iWait;
     }
 
-    int iCount = count_cX(aL,'#');
 
     cout << " ** Number of occupied seats: " << iCount << endl;
     cout << "    Number of generations:    " << nGen << endl;

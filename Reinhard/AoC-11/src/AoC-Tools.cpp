@@ -265,10 +265,15 @@ int count_cX(vector<string> &sList, char cX)
     {
         for (char tc : ts)
         {
-            if (tc == X)
+            if (tc == cX)
                 iCount += 1;
         }
     }
+
+    for (auto ts : sList)
+        cout << "?: " << ts << endl;
+    cout << " Number:" << iCount << endl;
+
     return iCount;
 }
 
@@ -289,16 +294,20 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc)
     for (int i = -1; i <= 1; i++)
     {
         int ti = ii+i;
-        if (i >= 0 && i < sa.size())
+        if (ti >= 0 && ti < sa.size())
         {
             for (int j = -1; j <= 1; j++)
             {
-                if (j >= 0; j < sa[i].size())
+                int tj = jj + j;
+                if (tj >= 0 && tj < sa[ti].size())
                 {
-                    if (sa[i][j] == tc)
-                        iCount += 1;
+                    if (! ((i==0) && (j==0)) ) {
+                        if (sa[ti][tj] == tc)
+                            iCount += 1;
+                    }
                 }
             }
         }
     }
+    return iCount;
 }
