@@ -100,8 +100,13 @@ int Puzzle_11(vector<string> &sList)
     bool bChange = true;
     int iCount = 0;
 
-    vector<string> aL = sList;
-    vector<string> bL = sList;
+    vector<string> aL;
+    vector<string> bL;
+
+    for (auto ts : sList) {
+        aL.push_back(ts);
+        bL.push_back(ts);
+    }
 
     int iState = 0;     // no special meaning; just r1 -> aL and r2 -> bL
     int nGen = 0;       // Number of generations

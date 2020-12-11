@@ -291,18 +291,16 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc)
 {
     int iCount = 0;
     
-    for (int i = -1; i <= 1; i++)
+    for (int i = ii-1; i <= ii+1; i++)
     {
-        int ti = ii+i;
-        if (ti >= 0 && ti < sa.size())
+        if (i >= 0 && i < sa.size())
         {
-            for (int j = -1; j <= 1; j++)
+            for (int j = jj-1; j <= jj+1; j++)
             {
-                int tj = jj + j;
-                if (tj >= 0 && tj < sa[ti].size())
+                if (j >= 0 && j < sa[i].size())
                 {
-                    if (! ((i==0) && (j==0)) ) {
-                        if (sa[ti][tj] == tc)
+                    if (! ((i==ii) && (j==jj)) ) {
+                        if (sa[i][j] == tc)
                             iCount += 1;
                     }
                 }
