@@ -116,7 +116,6 @@ int Puzzle_11(const vector<string> &sList)
 
     int iCount = count_cX(aL,'#');
 
-    // should be unreachable
     cout << " ** Number of occupied seats: " << iCount << endl;
     cout << "    Number of generations:    " << nGen << endl;
     return iCount;
