@@ -270,24 +270,68 @@ int count_cX(vector<string> &sList, char cX)
         }
     }
 
-    for (auto ts : sList)
-        cout << "?: " << ts << endl;
-    cout << " Number:" << iCount << endl;
-
     return iCount;
 }
 
 /**
  * @brief counting characters around pos j in string i
  * 
- * @param sa    - vector<string> &sa
- * @param sb    - vector<string> &sb
- * @param ii    - Index in Vector
- * @param jj    - Index in string
- * @param tc    - character to count for
- * @return int  - number ob char in the 8 places around i,j
+ * @param sa        - vector<string> &sa
+ * @param sb        - vector<string> &sb
+ * @param ii        - Index in Vector
+ * @param jj        - Index in string
+ * @param tc        - character to count for
+ * @param iMethod   - 1- search 8 neighbors; 2- search in 8 directions
+ * @return int      - number ob char in the 8 places around i,j
  */
-int count_surrounding(vector<string> &sa, int ii, int jj, char tc)
+int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod)
+{
+    int iCount = 0;
+
+    // Method 2: Search directions
+    for (int i = -1; i <= +1; i++)
+    {
+        for (int j = -1; j <= +1; j++)
+        {
+            // Now look in direction n*j + n*j
+            if ((i==0) && (j==0))
+            {
+                continue; // do nothing at my current position
+            }
+
+            // go in this direction (i,j)
+            int delta = 1;
+            while (true)
+            {
+                int ci = ii + delta * i;
+                int cj = jj + delta * j;
+
+                // within bounds?
+                if (ci < 0 || ci >= (sa.size()))
+                    break;
+
+                if (cj < 0 || cj >= (sa[ii].size()))
+                    break;
+                
+                // character found ?
+                if (sa[ci][cj] == tc)
+                {
+                    iCount++;
+                    break;
+                }
+
+                if (iMethod == 1)
+                    break;
+
+                // One step further
+                delta++;
+            }
+        }
+    }
+    return iCount;
+}
+
+int count_surrounding_v0(vector<string> &sa, int ii, int jj, char tc)
 {
     int iCount = 0;
     
