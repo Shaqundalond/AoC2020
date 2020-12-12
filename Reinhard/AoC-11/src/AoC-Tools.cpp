@@ -323,7 +323,11 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod)
                 if (iMethod == 1)
                     break;
 
-                // One step further
+                // One step further, only if the place is empty
+                if (sa[ci][cj] != '.')
+                    break;
+
+                // OK, move on in the current direction
                 delta++;
             }
         }
@@ -331,25 +335,3 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod)
     return iCount;
 }
 
-int count_surrounding_v0(vector<string> &sa, int ii, int jj, char tc)
-{
-    int iCount = 0;
-    
-    for (int i = ii-1; i <= ii+1; i++)
-    {
-        if (i >= 0 && i < sa.size())
-        {
-            for (int j = jj-1; j <= jj+1; j++)
-            {
-                if (j >= 0 && j < sa[i].size())
-                {
-                    if (! ((i==ii) && (j==jj)) ) {
-                        if (sa[i][j] == tc)
-                            iCount += 1;
-                    }
-                }
-            }
-        }
-    }
-    return iCount;
-}

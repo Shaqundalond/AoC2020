@@ -120,18 +120,24 @@ int Puzzle_11(vector<string> &sList, int iPuzzle)
     
     while (bChange)
     {
-        cout << endl << " --Looking for Gerneration: " << nGen+1 << endl;
+        cout << endl << " -- Looking for Gerneration: " << nGen+1 << endl;
         nGen++;
         if (iState == 0) {
             bChange = NextGen(aL,bL,iPuzzle);
+            iCount = count_cX(bL,'#');
+            for (auto ts:bL)
+                cout <<  "    " << ts << endl;
+
             iState = 1;
         } else {
             bChange = NextGen(bL,aL,iPuzzle);
+            iCount = count_cX(aL,'#');
+            for (auto ts:aL)
+                cout <<  "    " << ts << endl;
+
             iState = 0;
         }
-
-        iCount = count_cX(bL,'#');
-        cout << " ** Number of occupied seats: " << iCount << endl;
+        cout << "    Number of occupied seats: " << iCount << endl;
     }
 
     return iCount;
