@@ -17,7 +17,8 @@ using namespace std;
 
 // Function declarations
 // =====================
-int Puzzle_12(vector <string> &sList, int iPuzzle);
+int Puzzle_12_1(vector <string> &sList);
+int Puzzle_12_2(vector <string> &sList);
 
 
 /**
@@ -38,10 +39,10 @@ int main()
     }   
 
     // first puzzle of day 
-    Puzzle_12(vs,1);
+    Puzzle_12_1(vs);
 
     // Second puzzle of the day
-    // Puzzle_12(vs,2);
+    Puzzle_12_2(vs);
 
     return 0;
 }
@@ -79,12 +80,9 @@ int main()
  * @return int             0
  */
 
-int Puzzle_12(vector<string> &sList, int iPuzzle)
+int Puzzle_12_1(vector<string> &sList)
 {
-    if (iPuzzle == 1)
-        cout << MakeHeadline("Advent of Code 2020 Puzzle # 12 Part 1",'=');
-    else
-        cout << MakeHeadline("Advent of Code 2020 Puzzle # 12 Part 2",'=');        
+    cout << MakeHeadline("Advent of Code 2020 Puzzle # 12 Part 1",'=');
 
     int iLine = 0;
 
@@ -147,6 +145,180 @@ int Puzzle_12(vector<string> &sList, int iPuzzle)
                     default:
                         cout << " Error in heading : " << heading << endl;
                 }
+                break;
+
+            default:
+                cout << " Error in Command : " << iLine << " :: "<< ts <<  " :: " << endl;
+        }
+
+    //    cout << " to: " << cx << "," << cy <<" head= " << heading << endl; 
+
+    }
+
+    int manhatten = abs(cx) + abs(cy);
+
+    cout << " Manhattendistance = " << manhatten << endl;
+
+    return 0;
+}
+
+/**
+ * @brief  Rotates a point around a given Angle
+ * 
+ * @param cx        - Position X
+ * @param cy        - Position Y
+ * @param Angle     - Angle only multiples of 90
+ * @param nx 
+ * @param ny 
+ * @return int 
+ */
+int Rotate( int &nx, int &ny, int Angle, bool bTurnLeft)
+{
+    int cx = nx;
+    int cy = ny;
+
+    int tA = Angle % 360;
+    if (tA < 0)
+        tA += 360;
+
+    if (bTurnLeft == false)
+        tA = 360 - tA;      // Now it is Left
+
+    switch (tA)
+    {
+        case 0:
+        case 360:
+            // nothing to do
+            nx = cx;
+            ny = cy;
+            break;
+        case 90:
+            nx = -cy;
+            ny =  cx;
+            break;
+        case 180:
+            nx = -cx;
+            ny = -cy;
+            break;
+        case 270:
+            nx =  cy;
+            ny = -cx;
+            break;
+        default:
+            cout << "  ** ERROR in Rotating: Unkonw Angle: " << Angle << endl;
+            break;
+    }
+
+    return 0;
+}
+
+/**
+ * @brief           Puzzöe_12_2
+ * 
+ * Part 1:
+ * - Find Manhatten Distance to a list of navigation commands:
+ * 
+ * Same as puzzle 1 except that the commands are related to a waypoint
+ * 
+ * Almost all of the actions indicate how to move a waypoint which is relative to the ship's position:
+
+    Action N means to move the waypoint north by the given value.
+    Action S means to move the waypoint south by the given value.
+    Action E means to move the waypoint east by the given value.
+    Action W means to move the waypoint west by the given value.
+    Action L means to rotate the waypoint around the ship left (counter-clockwise) the given number of degrees.
+    Action R means to rotate the waypoint around the ship right (clockwise) the given number of degrees.
+    Action F means to move forward to the waypoint a number of times equal to the given value.
+    The waypoint starts 10 units east and 1 unit north relative to the ship. The waypoint is relative to the ship; 
+    that is, if the ship moves, the waypoint moves with it.
+
+        F10
+        N3
+        F7
+        R90
+        F11
+
+    For example, using the same instructions as above:
+
+    F10 moves the ship to the waypoint 10 times (a total of 100 units east and 10 units north), 
+        leaving the ship at east 100, north 10. The waypoint stays 10 units east and 1 unit north of the ship.
+    N3 moves the waypoint 3 units north to 10 units east and 4 units north of the ship. 
+        The ship remains at east 100, north 10.
+    F7 moves the ship to the waypoint 7 times (a total of 70 units east and 28 units north), 
+        leaving the ship at east 170, north 38. The waypoint stays 10 units east and 4 units north of the ship.
+    R90 rotates the waypoint around the ship clockwise 90 degrees, moving it to 4 units east and 10 units south of the ship. 
+        The ship remains at east 170, north 38.
+    F11 moves the ship to the waypoint 11 times (a total of 44 units east and 110 units south), 
+        leaving the ship at east 214, south 72. The waypoint stays 4 units east and 10 units south of the ship.
+
+    After these operations, the ship's Manhattan distance from its starting position is 214 + 72 = 286.
+ * 
+ * @param vector<string>   list of strings
+ * @return int             0
+ */
+
+int Puzzle_12_2(vector<string> &sList)
+{
+
+    cout << MakeHeadline("Advent of Code 2020 Puzzle # 12 Part 2",'=');        
+
+    int iLine = 0;
+
+    // astronomical system (south = 0 Azimuth)
+    // + -> North;  - -> South
+    // + -> East;   - -> West
+    // 0 = south; 90 = west; 180 = north; 270 = east
+
+    // Position of the ship
+    int cx = 0;     
+    int cy = 0;   
+    // position of the waypoint          
+    int wx = 10;             
+    int wy =  1;     
+
+    char cmd;
+    int dist;
+    
+    for (string ts: sList)
+    {
+        iLine += 1;
+
+        // Decoding command and dist
+        stringstream sst(ts);
+        sst >> cmd >> dist;
+
+        // cout << "-Moving form: " << cx << "," << cy <<" head= " << heading << " cmd: " << cmd << " dist= " << dist ; 
+
+        // lets do it
+        switch (cmd)
+        {
+            case 'N':
+                wy += dist;
+                break;
+                
+            case 'S':
+                wy -= dist;
+                break;
+
+            case 'W':
+                wx -= dist;
+                break;
+
+            case 'E':
+                wx += dist;
+                break;
+
+            case 'L':
+                Rotate(wx, wy, dist, true);
+                break;
+
+            case 'R':
+                Rotate(wx, wy, dist, false);
+                break;
+
+            case 'F':
+                cx += dist * wx;
+                cy += dist * wy;
                 break;
 
             default:
