@@ -66,7 +66,7 @@ int main()
 	vector<int> vi_delay;
 
 
-	cout << MakeHeadline("Advent of Code 2020 Puzzle # 11 PART 2",'=') << endl;
+	cout << MakeHeadline("Advent of Code 2020 Puzzle # 13 PART 2",'=') << endl;
 
 	if (!read_input(vs_input, input))
 	{
@@ -119,13 +119,23 @@ int main()
 
 	cout << MakeHeadline("Advent of Code 2020 Puzzle # 13 PART 2",'=') << endl;
 
-	long l_currPeriod= vi_trainline[0];
-	long l_currTime =vi_trainline[0];
+	long l_currPeriod= 1;
+	long l_currTime = 0;
 
 
-	for (int i = 1 ; i < vi_trainline.size() ; i++ )
+	for (int i = 0 ; i < vi_trainline.size() ; i++ )
 	{
-		int i_offset = vi_delay[i] - vi_delay[i -1];
+		int i_offset;
+		//annoying first case handling
+		if (i == 0 )
+		{
+			i_offset = vi_delay[i];
+		}
+		else
+		{
+			i_offset = vi_delay[i] - vi_delay[i -1];
+		}
+
 		while( true )
 		{
 			if( (l_currTime + i_offset) % vi_trainline[i] == 0 )
@@ -137,7 +147,6 @@ int main()
 			}
 			l_currTime += l_currPeriod;
 		}
-		cout << l_currTime << endl;
 	}
 
 	cout << l_currTime - vi_delay.back()<< endl;
