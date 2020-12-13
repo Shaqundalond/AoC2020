@@ -53,7 +53,9 @@ int main()
 /**
  * @brief           AoC Puzzle
  * 
- * Part 1:
+ * Part 1: Finding departure of next bus and it's ID
+ * 
+ * 
  * 
  * @param vector<string>   list of strings
  * @return int             0
@@ -63,7 +65,39 @@ int Puzzle_13_1(vector<string> &sList)
 {
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 13 Part 1",'=');
 
-    int iLine = 0;
+    int iNextBus = 0;
+    int iNextDeparture = 0;
+    int iCount = 0;
+
+    int tNow = atoi(sList[0].c_str());
+    vector<string> busses = explode(sList[1],","); 
+
+    for (auto tbus : busses)
+    {
+        if (tbus == "x")
+            continue;
+
+        int iLine = atoi(tbus.c_str());
+        int nextDeparture = iLine - (tNow % iLine);
+ 
+        cout << "  -- Testing " << iLine << " nextDep=" << nextDeparture << endl;
+
+        if (iCount == 0 || nextDeparture < iNextDeparture)
+        {
+            iNextBus = iLine;
+            iNextDeparture = nextDeparture;
+        }
+
+        iCount++;        
+    }
+
+    int iCode = iNextBus * iNextDeparture;
+    cout << " ** Results:" << endl;
+    cout << "    Now:            " << tNow << endl;
+    cout << "    Next Departure: " << iNextDeparture << endl;
+    cout << "    w/ Bus Line:    " << iNextBus << endl;
+    cout << "    Code:           " << iCode << endl;
+
     return 0;
 }
 
