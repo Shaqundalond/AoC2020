@@ -114,7 +114,7 @@ int Puzzle_13_1(vector<string> &sList)
  * @param p1        - Periode von p1
  * @return long     - Anzahl perioden von p1
  */
-long find_n1(long t0, int p0, int d1, int p1)
+long find_n1(long t0, long p0, long d1, long p1)
 {
     long n0 = 0;
     long n1 = 0;
@@ -163,6 +163,8 @@ int Puzzle_13_2(vector<string> &sList)
 
     for (int i = 0; i < vBus.size(); i++ )
         cout << " -- " << i << " Busline: " << vBus[i] << " Offset: " << vOffset[i] << endl;
+
+    cout << " *** sizeof(long) :" << sizeof(long) << " Max Long: " << endl;
 
     long t0 = 0;
     long n0 = 0;
