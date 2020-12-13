@@ -102,6 +102,39 @@ int Puzzle_13_1(vector<string> &sList)
 }
 
 /**
+ * @brief Aber Hallo
+ * 
+ * Suche das erste gemeinsame Vielfache von zwei Perioden, wenn die erste einen Startpunkt t0 hat
+ * und die zweite eine offset von d1 haben soll
+ * Es ist zu erwarten, dass p0 deutlich größer sein kann als p1
+ * 
+ * @param t0        - Startpunkt von p0
+ * @param p0        - Periode von p0
+ * @param d1        - Offset von p1
+ * @param p1        - Periode von p1
+ * @return long     - Anzahl perioden von p1
+ */
+long find_n1(long t0, int p0, int d1, int p1)
+{
+    long n0 = 0;
+    long n1 = 0;
+
+    while (true)
+    {
+        long e0 = t0 + n0 * p0 + d1;
+        long e1 = n1 * p1;
+
+        if (e0 == e1)
+            break;      // Ooooh - What a lucky man you are
+        else if (e0 > e1)
+            n1 += max(1L,(e0 - e1) / p1);
+        else 
+            n0 += max(1L,(e1 - e0) / p0);
+    }
+    return n1;
+}
+
+/**
  * @brief           AoC Puzzle
  * 
  * Part 2:
@@ -114,7 +147,41 @@ int Puzzle_13_2(vector<string> &sList)
 {
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 13 Part 2",'=');
 
-    int iLine = 0;
+    vector<string> vsBusses = explode(sList[1],","); 
+
+    vector<int> vBus;
+    vector<int> vOffset;
+    int ti = 0;
+    for (auto sB : vsBusses)
+    {
+        if (sB != "x") {
+            vBus.push_back(atoi(sB.c_str()));
+            vOffset.push_back(ti);
+        }
+        ti++;
+    }
+
+    for (int i = 0; i < vBus.size(); i++ )
+        cout << " -- " << i << " Busline: " << vBus[i] << " Offset: " << vOffset[i] << endl;
+
+    long t0 = 0;
+    long n0 = 0;
+    long p0 = vBus[0];
+
+    for (int i = 1; i < vBus.size(); i++)
+    {
+        int d1 = vOffset[i] - vOffset[i-1];
+        int p1 = vBus[i];
+        long n1 = find_n1(t0,p0,d1,p1);
+        t0 = n1*p1;
+        p0 = p0*p1;
+
+        cout << "   Next step: t0: " << t0 << " p0: " << p0 << endl;
+    }
+
+    long iResult = t0 - vOffset.back();
+    cout << " ** Ergebnis: " << iResult << endl;
+
     return 0;
 }
 
