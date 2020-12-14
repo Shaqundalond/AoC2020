@@ -1,5 +1,5 @@
 ﻿/**
- * @file AoC-12.cpp
+ * @file AoC-13.cpp
  * @author Reinhard Pfaff
  * @brief AoC Puzzle 2020 #13
  * @version 0.1
@@ -28,7 +28,7 @@ int Puzzle_13_2(vector <string> &sList);
  */
 int main()
 {
-    cout << MakeHeadline("Advent of Code 2020 Puzzle # 12",'=');
+    cout << MakeHeadline("Advent of Code 2020 Puzzle # 13",'=');
 
     // Reading input strings
     vector<string> vs;
