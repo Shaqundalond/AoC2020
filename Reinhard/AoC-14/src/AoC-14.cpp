@@ -148,20 +148,15 @@ int Puzzle_14_1(vector<string> &sList)
             int addr = stoi(xts[1]);
             long val = stol(xts[2]);
 
-            // Set the 1 using binary or
-            val = val | mask_1;
-            // Set the 0 using binay and
-            val = val & mask_0;
-
-            // Store the value
-            mem[addr] = val;
+            val = val | mask_1;     // Set the 1 using binary or
+            val = val & mask_0;     // Set the 0 using binay and
+            mem[addr] = val;        // Store the value
         }
         iLine++;
     }
 
     // Add up all values
     long lResult = 0L;
-
     for (auto m : mem)
         lResult += m.second;
 
