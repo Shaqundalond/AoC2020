@@ -1,5 +1,5 @@
 # Makefile for AoC Projects
-# Reinhard Pfaff 13.12.2020
+# Reinhard Pfaff 14.12.2020
 
 CC= g++
 CFLAGS= -c -std=c++14 -I../../Include
@@ -8,7 +8,7 @@ TARGET=AoC
 LIBS=../../Lib/AoC-Lib.a
 
 # the Objectfiles
-objects = AoC-13.$(OExt)
+objects = AoC-14.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp

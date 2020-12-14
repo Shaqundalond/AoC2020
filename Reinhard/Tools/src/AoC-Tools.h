@@ -18,5 +18,5 @@ const vector<string> explode(const string& s, const string sep);
 int count_cX(vector<string> &sList, char cX);
 int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod);
 int count_surrounding_v0(vector<string> &sa, int ii, int jj, char tc);
-
-
+int count_char(const string ts, const char tc);
+string LongToBitString(const long l);

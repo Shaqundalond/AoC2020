@@ -26,5 +26,7 @@ clean:
 	rm *.$(OExt) 
 
 deploy:
+	mkdir -p ../../include 
 	cp *.h ../../include
+	mkdir -p ../../Lib
 	cp *.a ../../Lib

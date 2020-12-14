@@ -39,7 +39,7 @@ int main()
     }   
 
     // first puzzle of day 
-    Puzzle_14_1(vs);
+    // Puzzle_14_1(vs);
 
     // Second puzzle of the day
     Puzzle_14_2(vs);
@@ -138,7 +138,7 @@ int Puzzle_14_1(vector<string> &sList)
                 cout << " ** ERROR in Line: " << iLine+1 << " Invalid command: \"" << ts << "\"" << endl;
             }
             mask_0 = make_mask_0(xts[1]);
-            mask_1 = make_mask_1(xts[0]);
+            mask_1 = make_mask_1(xts[1]);
         }
         else if (xts[0] == "mem")
         {
@@ -158,12 +158,49 @@ int Puzzle_14_1(vector<string> &sList)
     // Add up all values
     long lResult = 0L;
     for (auto m : mem)
-        lResult += m.second;
+    {
+        long tl = m.second;
+        int ta = m.first;
+        cout << "F: " << ta << "  Val: " << tl << endl;
+        lResult += tl;
+    }
 
     cout <<" -- Sum of all Mem: " << lResult << endl;
     cout << endl;
 
     return 0;
+}
+
+
+vector<string> MakeAllAddr(const string addr36)
+{
+    vector<string> tt(1);
+
+    for (auto tc:addr36)
+    {
+        if (tc  == 'X')
+        {
+            // duplicate all strings
+            int s = tt.size();
+            for (int i=0; i < s; i++)
+            {
+                tt.push_back(tt[i]);
+            }
+            // now push each a 0 and a 1
+            for (int i=0; i < s; i++){
+                tt[i].push_back('0');
+                tt[i+s].push_back('1');
+            }
+        }
+        else
+        {
+            for (int i=0; i < tt.size(); i++){
+                tt[i].push_back(tc);
+            }
+        }
+    }
+
+    return tt;
 }
 
 /**
@@ -178,8 +215,72 @@ int Puzzle_14_1(vector<string> &sList)
 int Puzzle_14_2(vector<string> &sList)
 {
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 14 Part 2",'=');
+ 
+    string mask(36,'-');
+    long mask_0 = 0L;
+    long mask_1 = 0L;
 
-    cout << " -- Nor yet implemented" << endl;
+    int iLine = 0;
+
+    // 
+    map<string,long> mem;
+
+    for (auto ts : sList)
+    {
+        vector<string> xts = explode(ts,"[] =");
+        if (xts.size() < 1)
+            continue;
+
+        if (xts[0] == "mask")
+        {
+            if (xts.size() < 2) {
+                cout << " ** ERROR in Line: " << iLine+1 << " Invalid command: \"" << ts << "\"" << endl;
+            }
+            mask = xts[1];
+            // cout << " - Mask: " << xts[1] << "  Count: " << count_char(xts[1], 'X') << endl;
+        }
+        else if (xts[0] == "mem")
+        {
+            if (xts.size() < 3) {
+                cout << " ** ERROR in Line: " << iLine+1 << " Invalid command: \"" << ts << "\"" << endl;
+            }
+
+            long val = stol(xts[2]);
+            string addr = LongToBitString(stol(xts[1]));
+            int sa = addr.size();
+            int sm = mask.size();
+
+            string addr36 = addr.substr(sa - sm);
+            long f = 1;
+            for (int i= 0; i < sm; i++)
+            {
+                switch(mask[i])
+                {
+                    case 'X': addr36[i] = 'X'; break;
+                    case '1': addr36[i] = '1'; break;
+                    case '0': /* nothing changes */ break;
+                }
+            }
+
+            vector<string> alla = MakeAllAddr(addr36);
+            for (auto tl : alla)   
+                mem[tl] = val;        // Store the value
+        }
+        iLine++;
+    }
+
+    // Add up all values
+    long lResult = 0L;
+    for (auto m : mem)
+    {
+        long tl = m.second;
+        string ta = m.first;
+        cout << "F: " << ta << "  Val: " << tl << endl;
+        lResult += tl;
+    }
+
+    cout <<" -- Sum of all Mem: " << lResult << endl;
+    cout << endl;
 
     return 0;
 }

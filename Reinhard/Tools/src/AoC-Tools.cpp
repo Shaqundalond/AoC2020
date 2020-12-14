@@ -342,3 +342,40 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod)
     return iCount;
 }
 
+/**
+ * @brief counting number of specified character in string
+ * 
+ * @param ts    - string to look in
+ * @param tc    - character to count
+ * @return int  - number of occurance of tc in ts
+ */
+int count_char(const string ts, const char tc)
+{
+    int iCount = 0;
+    for (auto c : ts)
+        if (c == tc)
+            iCount++;
+    return iCount;
+}
+
+/**
+ * @brief Converts a long to a bitstring
+ * 
+ * @param l         - long value
+ * @return string   - 
+ */
+string LongToBitString(const long l)
+{
+    int nBits = sizeof(l) * 8;
+    string ts(nBits,'0');   
+
+    long mask = 1;
+
+    for (int i=0; i < nBits; i++)
+    {
+        if (l & mask)
+            ts[nBits-i-1] = '1';
+        mask <<= 1;
+    }
+    return ts;
+}
