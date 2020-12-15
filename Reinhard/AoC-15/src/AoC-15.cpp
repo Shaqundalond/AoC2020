@@ -62,33 +62,41 @@ int Puzzle_15_1(vector<string> &sList)
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 15 Part 1",'=');
 
     vector<string> XS = explode(sList[0],",");
-    vector<int> t_iCard(2021,-1);        // 2021 entries, initialized w/ -1
-
+    vector<int> vCard;
+    
     // First saying from input
-    int iStep  = 1;
-    int iCard = 0;
-    int iNextCard = 0;
-
+    
+    int iStep = 1;
+    int iLast = 0;
+    vCard.push_back(-1);
     for (auto ts: XS)
     {
-        iCard = stoi(ts); 
-        t_iCard[iCard] = iStep++;    // the number iCard was called at iStep
+        iLast = stoi(ts);
+        vCard.push_back(iLast);
+        iStep++;
     }
 
     for (  ; iStep <= 2020; iStep++ ) 
     {
-        int iLastStep = t_iCard[iCard];
+        // find iLast
+        int iNext = 0;
+        int iFound = -1;
+        for (int j = iStep-2; j >= 0; j--)
+        {
+            if (vCard[j] == iLast)
+            {
+                iNext = iStep-1-j;
+                iFound = j;
+                j = -1;
+            }
+        }
+        //cout << iStep << " iLast: " << iLast << " Found at: " << iFound << " iNext:" << iNext << endl;
 
-        if (iLastStep >= 0)
-            iNextCard = iStep - iLastStep;
-        else
-            iNextCard = 0;
-        
-        t_iCard[iNextCard] = iStep;
-        iCard = iNextCard;
+        iLast = iNext;
+        vCard.push_back(iNext);
     }
     
-    cout <<" -- Last call: " << iCard << endl;
+    cout <<" -- Last call: " << iLast << endl;
     cout << endl;
 
     return 0;
