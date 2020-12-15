@@ -17,8 +17,7 @@ using namespace std;
 
 // Function declarations
 // =====================
-int Puzzle_15_1(vector <string> &sList);
-int Puzzle_15_2(vector <string> &sList);
+int Puzzle_15(vector <string> &sList, int nSteps);
 
 
 /**
@@ -39,10 +38,10 @@ int main()
     }   
 
     // first puzzle of day 
-    Puzzle_15_1(vs);
+    Puzzle_15(vs, 2020);
 
     // Second puzzle of the day
-    // Puzzle_15_2(vs);
+    Puzzle_15(vs, 30000000);
 
     return 0;
 }
@@ -57,10 +56,8 @@ int main()
  * @param vector<string>   list of strings (only one string)
  * @return int             0
  */
-int Puzzle_15_1(vector<string> &sList)
+int Puzzle_15(vector<string> &sList, int nSteps)
 {
-    cout << MakeHeadline("Advent of Code 2020 Puzzle # 15 Part 1",'=');
-
     vector<string> XS = explode(sList[0],",");
     vector<int> vCard;
     
@@ -68,35 +65,32 @@ int Puzzle_15_1(vector<string> &sList)
     
     int iStep = 1;
     int iLast = 0;
-    vCard.push_back(-1);
-    for (auto ts: XS)
-    {
-        iLast = stoi(ts);
-        vCard.push_back(iLast);
-        iStep++;
-    }
+    map<int,int> mCard;
 
-    for (  ; iStep <= 2020; iStep++ ) 
+    for (iStep=1; iStep < XS.size(); iStep++)
+    {
+        iLast = stoi(XS[iStep-1]);
+        mCard[iLast] = iStep;
+        iLast = stoi(XS[iStep]);
+    }
+    iStep++;
+
+    for ( ; iStep <= nSteps; iStep++ ) 
     {
         // find iLast
+        auto pos = mCard.find(iLast);
         int iNext = 0;
-        int iFound = -1;
-        for (int j = iStep-2; j >= 0; j--)
+        if ( pos != mCard.end() )
         {
-            if (vCard[j] == iLast)
-            {
-                iNext = iStep-1-j;
-                iFound = j;
-                j = -1;
-            }
+            iNext = iStep-1 - pos->second;
         }
-        //cout << iStep << " iLast: " << iLast << " Found at: " << iFound << " iNext:" << iNext << endl;
-
+ 
+        mCard[iLast] = iStep-1;
         iLast = iNext;
-        vCard.push_back(iNext);
     }
     
-    cout <<" -- Last call: " << iLast << endl;
+    cout << endl;
+    cout <<" -- Last call (" << nSteps << ") : " << iLast << endl;
     cout << endl;
 
     return 0;
