@@ -11,7 +11,7 @@ TARGET=AoC-Lib.a
 #	$(MAKE) $(TARGET)
 
 # the Objectfiles
-objects = AoC-Tools.$(OExt)
+objects = AoC-Tools.$(OExt) StopWatch.$(OExt)
 
 # Rule for compiling Cpp files
 %.$(OExt): %.cpp

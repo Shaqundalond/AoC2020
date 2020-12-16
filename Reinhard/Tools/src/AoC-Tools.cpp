@@ -9,8 +9,6 @@
  * 
  */
 
-
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -80,74 +78,6 @@ int ReadStrings(const string fn, vector<string>& v_s)
     return count;
 }
 
-/**
- * @brief Read Strings from file and store them in a vector<string>
- * 
- * the stings are appended to the given vector<string>
- * 
- * Remark:
- * - Strings for Puzzle 04 are spread over more than one line
- * - Empty lines are string delimiters: 
- *   For example:
- *       <BOF>
- *       ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
- *       byr:1937 iyr:2017 cid:147 hgt:183cm
- *       
- *       iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
- *       hcl:#cfa07d byr:1929
- *       
- *       hcl:#ae17e1 iyr:2013
- *       eyr:2024
- *       ecl:brn pid:760753108 byr:1931
- *       hgt:179cm
- *       <EOF>
- *   results in a vector w/ three strings
- * 
- * @param fn    - filename
- * @param v_s   - vector<string> to store 
- * @return int  - errorcode oder numer of strings
- *              -1 ERROR: file open error
- *              >= 0 Number of read lines in file (incl. empty lines)
- */
-int ReadStrings4P04(const string fn, vector<string>& v_s)
-{
-    int count = 0;
-    ifstream fil(fn);
-
-    // open the input file
-    if (!fil.is_open())
-    {
-        cout << "Could not open file: [" << fn << "]" << endl;
-        return -1;
-    }
-
-    // read all lines
-    string line;
-    string cline;   // compount line
-    while (getline(fil, line))  // line delimiters are NOT stored
-    {
-        if (line.length() > 0)
-        {
-            // append the current read line to the cline (don't forget a separator)
-            cline += line;
-            cline += " ";
-        }
-        else
-        {
-            // this is a new line, so push back the collected strings
-            v_s.push_back(cline);
-            // and prepare the cline
-            cline.clear();
-        }
-        count++;
-    }
-    // maybe there was no empty line at the end of the file
-    if (cline.length() > 0)
-    {
-        v_s.push_back(cline);
-    }
-    return count;
-}
 
 /**
  * @brief Read Strings from file and store them in a vector<string>
@@ -281,6 +211,22 @@ int count_cX(vector<string> &sList, char cX)
 }
 
 /**
+ * @brief counting number of specified character in string
+ * 
+ * @param ts    - string to look in
+ * @param tc    - character to count
+ * @return int  - number of occurance of tc in ts
+ */
+int count_char(const string ts, const char tc)
+{
+    int iCount = 0;
+    for (auto c : ts)
+        if (c == tc)
+            iCount++;
+    return iCount;
+}
+
+/**
  * @brief counting characters around pos j in string i
  * 
  * @param sa        - vector<string> &sa
@@ -342,21 +288,6 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod)
     return iCount;
 }
 
-/**
- * @brief counting number of specified character in string
- * 
- * @param ts    - string to look in
- * @param tc    - character to count
- * @return int  - number of occurance of tc in ts
- */
-int count_char(const string ts, const char tc)
-{
-    int iCount = 0;
-    for (auto c : ts)
-        if (c == tc)
-            iCount++;
-    return iCount;
-}
 
 /**
  * @brief Converts a long to a bitstring

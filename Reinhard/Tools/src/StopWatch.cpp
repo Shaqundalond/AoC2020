@@ -14,39 +14,47 @@
 #include <chrono>
 
 using namespace std;
-
 #include "AoC-Tools.h"
 
+using namespace std::chrono;
+#include "StopWatch.h"
 
-StopWatch::StopWatch_ms()
+StopWatch::StopWatch()
 {
     Start();
 }
-StopWatch::~StopWatch_ms()
+StopWatch::~StopWatch()
 {
 
 }
 
 void Start()
 {
-    m_Start = m_StartRound = Now();
+    time_point tp = steady_clock::now();
+    m_TP_Start = m_TP_StartLap = tp;
 }
 
 
+/**
+ * @brief Returning the Duration since Start
+ * 
+ * @return double 
+ */
 double Stop()
 {
-    long n = Now_ms();
-    long d = n - m_Start;
-    m_Start = m_StartRound = 0L;
+    time_point tp = steady_clock::now();
+    steady_clock::duration d = tp - m_TP_Start;
 
-    return d;
+    double dur = d.count();
+    return dur;
 }
 
-double Now()
+double Lap()
 {
-    double n = 0.0;
+    time_point tp = steady_clock::now();
+    steady_clock::duration d = tp - m_TP_StartLap;
+    m_TP_StartLap = tp;
 
-
-    return n;
+    double dur = d.count();
+    return dur;
 }
-
