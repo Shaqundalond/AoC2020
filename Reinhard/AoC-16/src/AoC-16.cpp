@@ -25,15 +25,19 @@ int Puzzle_16(vector <string> &sList);
  * 
  * @return int 1 - Error
  */
-int main()
+int main(int argc, char** argv)
 {
     cout << MakeHeadline("Advent of Code 2020 Puzzle # 16",'*');
 
     // Reading input strings
+    string fn = "input.txt";
+    if (argc > 1)
+        fn.assign(argv[1]);
+
     vector<string> vs;
-    if (ReadStrings("input.txt", vs) < 0)
+    if (ReadStrings(fn, vs) < 0)
     {
-        cout << "---ERROR Reading strings. Aborting!" << endl;
+        cout << "---ERROR Reading strings from file ["<<fn<<"] Aborting!" << endl;
         return 1;
     }   
 
@@ -64,32 +68,33 @@ typedef struct rule_s
 
 int GetTicket(string ts, ticket_t &t)
 {
+    cout << "GetTicket : " << ts << endl;
     int iCount = 0;
     vector<string> xts = explode(ts,",");
-    for(auto tts : xts)
-    {
-        if (iCount == 0)
-            t.clear();
-        t.push_back(stoi(tts));
-        iCount++;
+    if (xts.size() > 2) {
+        for(auto tts : xts)
+        {
+            if (iCount == 0)
+                t.clear();
+            t.push_back(stoi(tts));
+            iCount++;
+        }
     }
     return iCount;
 }
 
 bool IsValidNumber(int number, vector<rule_t> &rules)
 {
-    int bValid = false;
     for(auto r:rules)
     {
         if ((number >= r.m_from1) && (number <= r.m_to1) ||
             (number >= r.m_from2) && (number <= r.m_to2))
         {
-            bValid = true;
-            break;
+            return true;
         }
     }
 
-    return bValid;
+    return false;
 }
 
 /**
@@ -100,9 +105,9 @@ bool IsValidNumber(int number, vector<rule_t> &rules)
  * @param vector<string>   list of strings (only one string)
  * @return int             0
  */
-int Puzzle_16(vector<string> &sList, int nSteps)
+int Puzzle_16(vector<string> &sList)
 {
-    vector<string> XS = explode(sList[0],",");
+    //vector<string> XS = explode(sList[0],",");
 
     int iSum = 0;
 
@@ -113,7 +118,7 @@ int Puzzle_16(vector<string> &sList, int nSteps)
 
     // Analysing input file
     int section = 1;        // starting w/ rules
-    for (auto ts:XS)
+    for (auto ts:sList)
     {
         if (ts.size() == 0) {
             section += 1;
@@ -134,7 +139,9 @@ int Puzzle_16(vector<string> &sList, int nSteps)
                     r.m_to1   = stoi(xxr[1]);
                     r.m_from2 = stoi(xxr[2]);
                     r.m_to2   = stoi(xxr[3]);
+                    rules.push_back(r);
                 }
+                
             }
         }
 
@@ -151,13 +158,20 @@ int Puzzle_16(vector<string> &sList, int nSteps)
         }
     }
 
+    // Debugging
+    // for (auto r : rules)
+    //    cout << " -- Rule: " << r.m_key << " " << r.m_from1 << " - " << r.m_to1 << " OR " << r.m_from2 << " - "<< r.m_to2 << endl;
+
     // Now count the invalid tickets
     for ( auto t : tickets)
     {
         for ( auto in : t)
         {
-            if (!IsValidNumber(in,tickets))
+            if (!IsValidNumber(in,rules))
+            {
+                cout << "-- Invalid: " << in << endl;
                 iSum += in;
+            }
         }
     }
 
@@ -168,27 +182,3 @@ int Puzzle_16(vector<string> &sList, int nSteps)
 
     return 0;
 }
-
-
-
-/**
- * @brief           AoC Puzzle
- * 
- * Part 2:
- * 
- * @param vector<string>   list of strings
- * @return int             0
- */
-
-int Puzzle_15_2(vector<string> &sList)
-{
-    cout << MakeHeadline("Advent of Code 2020 Puzzle # 15 Part 2",'=');
- 
-
-    cout <<" -- Not yet implemented!" << endl;
-    cout << endl;
-
-    return 0;
-}
-
-

@@ -28,9 +28,9 @@ StopWatch::~StopWatch()
 
 }
 
-void Start()
+void StopWatch::Start()
 {
-    time_point tp = steady_clock::now();
+    steady_clock::time_point tp = steady_clock::now();
     m_TP_Start = m_TP_StartLap = tp;
 }
 
@@ -40,18 +40,18 @@ void Start()
  * 
  * @return double 
  */
-double Stop()
+double StopWatch::Stop()
 {
-    time_point tp = steady_clock::now();
+    steady_clock::time_point tp = steady_clock::now();
     steady_clock::duration d = tp - m_TP_Start;
 
     double dur = d.count();
     return dur;
 }
 
-double Lap()
+double StopWatch::Lap()
 {
-    time_point tp = steady_clock::now();
+    steady_clock::time_point tp = steady_clock::now();
     steady_clock::duration d = tp - m_TP_StartLap;
     m_TP_StartLap = tp;
 

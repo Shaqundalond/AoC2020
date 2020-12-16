@@ -2,7 +2,7 @@
 # Reinhard Pfaff 16.12.2020
 
 CC= g++
-CFLAGS= -c -std=c++14 -I../../Include
+CFLAGS= -c -g -std=c++14 -I../../Include
 OExt=o
 TARGET=AoC
 LIBS=../../Lib/AoC-Lib.a
