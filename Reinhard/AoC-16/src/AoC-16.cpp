@@ -231,8 +231,51 @@ int Puzzle_16(vector<string> &sList)
         cout << endl;
     }
 
-    // kontrollausgabe
+    // check all rules
+    for (int l = 0; l< 20; l++) {
+        for (int i= 0; i< 20 ; i++)
+        {
+            // find column with one element
+            int n = 0;
+            int tj=-1;
+            for (int j=0; j < 20; j++)
+            {
+                if (bCandid[i][j])
+                {
+                    n++;
+                    tj = j;
+                }
+            }
+            if (n==1)
+            {
+                // found => Rule i is Column j
+                rules[i].m_Index = tj;
+                // remove all in row j
+                for (int k=0;k<20;k++)
+                    bCandid[k][tj] = false;
+            }        
+        }
+    }
 
+    // kontrollausgabe
+    for (int ir = 0; ir< 20; ir++)
+    {
+        cout << rules[ir].m_Index << "   - " << myTicket[ir] << endl;
+    }
+
+    cout << endl;
+
+    // finally find the values in myTicket
+    long Prod = 1;
+
+    for (int iv = 0; iv < 20; iv++)
+    {
+        if (rules[iv].m_Index < 6)
+        {
+            Prod *= myTicket[iv];
+            cout << Prod << endl;
+        }
+    }
 
 
     return 0;
