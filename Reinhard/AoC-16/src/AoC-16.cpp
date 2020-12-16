@@ -268,13 +268,10 @@ int Puzzle_16(vector<string> &sList)
     // finally find the values in myTicket
     long Prod = 1;
 
-    for (int iv = 0; iv < 20; iv++)
+    for (int iv = 0; iv < 6; iv++)
     {
-        if (rules[iv].m_Index < 6)
-        {
-            Prod *= myTicket[iv];
+            Prod *= myTicket[rules[iv].m_Index];
             cout << Prod << endl;
-        }
     }
 
 
