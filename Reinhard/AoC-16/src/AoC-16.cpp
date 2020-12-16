@@ -59,6 +59,7 @@ int main(int argc, char** argv)
 typedef vector<int> ticket_t;
 typedef struct rule_s
 {
+    int m_Index;
     string m_key;
     int m_from1;
     int m_to1;
@@ -68,7 +69,7 @@ typedef struct rule_s
 
 int GetTicket(string ts, ticket_t &t)
 {
-    cout << "GetTicket : " << ts << endl;
+    // cout << "GetTicket : " << ts << endl;
     int iCount = 0;
     vector<string> xts = explode(ts,",");
     if (xts.size() > 2) {
@@ -95,6 +96,30 @@ bool IsValidNumber(int number, vector<rule_t> &rules)
     }
 
     return false;
+}
+
+
+bool CheckTicketsForRule(int i, int j, const vector<ticket_t> &t, vector<rule_t> &rules)
+{
+    // check in al tickets element tt[j] for matching rule[i]
+
+    rule_t r = rules[i];
+
+    for (auto tt : t)
+    {
+        int number = tt[j];
+
+        if ((number >= r.m_from1) && (number <= r.m_to1) ||
+            (number >= r.m_from2) && (number <= r.m_to2))
+        {
+            // OK, looks like valid
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -163,22 +188,52 @@ int Puzzle_16(vector<string> &sList)
     //    cout << " -- Rule: " << r.m_key << " " << r.m_from1 << " - " << r.m_to1 << " OR " << r.m_from2 << " - "<< r.m_to2 << endl;
 
     // Now count the invalid tickets
+    vector<ticket_t> ctickets;
+
     for ( auto t : tickets)
     {
+        bool bValid = true;
         for ( auto in : t)
         {
             if (!IsValidNumber(in,rules))
             {
                 cout << "-- Invalid: " << in << endl;
                 iSum += in;
+                bValid = false;
             }
         }
+        if (bValid)
+            ctickets.push_back(t);
     }
-
     // Finally write the results
     cout << endl;
-    cout <<" -- sum of invalid ticketnumbers: " << iSum << endl;
+    cout << " *** sum of invalid ticketnumbers: " << iSum << endl;
     cout << endl;
+
+    cout << " *** Valid Tickets: " << ctickets.size() << endl << endl;
+
+    bool bCandid[20][20];
+
+    // check the first 
+    for (int i = 0; i < 20; i++)
+    {
+        for (int j = 0; j < 20; j++)
+        {
+            bool bOK = CheckTicketsForRule(i,j,ctickets,rules);
+            bCandid[i][j] = bOK;
+
+            if (bOK)
+                cout << " X ";
+            else
+                cout << " . ";
+             
+        }
+        cout << endl;
+    }
+
+    // kontrollausgabe
+
+
 
     return 0;
 }

@@ -1,24 +1,83 @@
 
-===================================
-= Advent of Code 2020 Puzzle # 15 =
-===================================
+***********************************
+* Advent of Code 2020 Puzzle # 16 *
+***********************************
 
+-- Invalid: 16
+-- Invalid: 15
+-- Invalid: 980
+-- Invalid: 4
+-- Invalid: 21
+-- Invalid: 16
+-- Invalid: 11
+-- Invalid: 993
+-- Invalid: 991
+-- Invalid: 12
+-- Invalid: 18
+-- Invalid: 979
+-- Invalid: 8
+-- Invalid: 5
+-- Invalid: 3
+-- Invalid: 992
+-- Invalid: 5
+-- Invalid: 985
+-- Invalid: 981
+-- Invalid: 979
+-- Invalid: 24
+-- Invalid: 0
+-- Invalid: 4
+-- Invalid: 987
+-- Invalid: 996
+-- Invalid: 985
+-- Invalid: 978
+-- Invalid: 18
+-- Invalid: 13
+-- Invalid: 976
+-- Invalid: 14
+-- Invalid: 986
+-- Invalid: 0
+-- Invalid: 992
+-- Invalid: 975
+-- Invalid: 988
+-- Invalid: 979
+-- Invalid: 986
+-- Invalid: 987
+-- Invalid: 23
+-- Invalid: 21
+-- Invalid: 3
+-- Invalid: 23
+-- Invalid: 977
+-- Invalid: 980
+-- Invalid: 975
+-- Invalid: 990
+-- Invalid: 998
+-- Invalid: 18
+-- Invalid: 985
+-- Invalid: 7
+-- Invalid: 10
+-- Invalid: 4
 
-===================================
-= Advent of Code 2020 Puzzle # 15 =
-===================================
+ *** sum of invalid ticketnumbers: 25916
 
-8 iLast: 16 Found at: 0 iNext:0  1  2  _  _  3  _  _  _  _  _  _  _  6  4  _  5  _  _  _  _
-9 iLast: 0 Found at: 1 iNext:7  1  2  _  _  3  _  _  _  _  _  _  _  6  4  _  5  7  _  _  _
-10 iLast: 7 Found at: 0 iNext:0  8  2  _  _  3  _  _  _  _  _  _  _  6  4  _  5  7  _  _  _
-11 iLast: 0 Found at: 8 iNext:2  8  2  _  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-12 iLast: 2 Found at: 0 iNext:0  10  2  _  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-13 iLast: 0 Found at: 10 iNext:2  10  2  11  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-14 iLast: 2 Found at: 11 iNext:2  12  2  11  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-15 iLast: 2 Found at: 13 iNext:1  12  2  13  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-16 iLast: 1 Found at: 2 iNext:13  12  2  14  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-17 iLast: 13 Found at: 4 iNext:12  12  15  14  _  3  _  _  9  _  _  _  _  6  4  _  5  7  _  _  _
-18 iLast: 12 Found at: 6 iNext:11  12  15  14  _  3  _  _  9  _  _  _  _  6  16  _  5  7  _  _  _
-19 iLast: 11 Found at: 0 iNext:0  12  15  14  _  3  _  _  9  _  _  _  _  17  16  _  5  7  _  _  _
- -- Last call: 1665
+ *** Valid Tickets: 190
 
+ .  X  X  .  .  .  .  .  X  X  X  X  X  .  X  .  .  X  X  . 
+ .  X  X  X  .  X  .  X  X  X  X  X  X  .  X  .  .  X  X  . 
+ .  X  X  .  .  .  .  .  X  X  X  X  X  .  X  .  .  X  .  . 
+ .  X  X  X  .  X  .  .  X  X  X  X  X  .  X  .  .  X  X  . 
+ X  X  X  X  .  X  .  X  X  X  X  X  X  .  X  .  .  X  X  . 
+ .  X  X  .  .  X  .  .  X  X  X  X  X  .  X  .  .  X  X  . 
+ .  .  .  .  .  .  .  .  .  X  .  X  .  .  .  .  .  .  .  . 
+ .  .  X  .  .  .  .  .  .  X  X  X  .  .  X  .  .  .  .  . 
+ X  X  X  X  .  X  .  X  X  X  X  X  X  .  X  X  X  X  X  . 
+ X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  . 
+ .  .  .  .  .  .  .  .  .  X  .  .  .  .  .  .  .  .  .  . 
+ .  .  X  .  .  .  .  .  X  X  X  X  .  .  X  .  .  X  .  . 
+ X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X  X 
+ .  .  .  .  .  .  .  .  .  X  X  X  .  .  X  .  .  .  .  . 
+ X  X  X  X  X  X  X  X  X  X  X  X  X  .  X  X  X  X  X  . 
+ .  .  .  .  .  .  .  .  .  X  .  X  .  .  X  .  .  .  .  . 
+ X  X  X  X  .  X  X  X  X  X  X  X  X  .  X  X  X  X  X  . 
+ .  .  X  .  .  .  .  .  .  X  X  X  .  .  X  .  .  X  .  . 
+ X  X  X  X  .  X  .  X  X  X  X  X  X  .  X  X  .  X  X  . 
+ .  .  X  .  .  .  .  .  X  X  X  X  X  .  X  .  .  X  .  . 
