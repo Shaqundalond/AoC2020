@@ -9,6 +9,10 @@
  * 
  */
 
+// ==================================
+// Function declarations
+// ==================================
+
 string MakeHeadline(const string head, const char char_frame);
 int ReadStrings(const string fn, vector<string>& v_s);
 int ReadStrings4P04(const string fn, vector<string>& v_s);
@@ -20,3 +24,26 @@ int count_surrounding(vector<string> &sa, int ii, int jj, char tc, int iMethod);
 int count_surrounding_v0(vector<string> &sa, int ii, int jj, char tc);
 int count_char(const string ts, const char tc);
 string LongToBitString(const long l);
+
+
+// ==================================
+// classes
+// ==================================
+
+typedef std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> tp_sec;
+
+class StopWatch
+{
+public:
+    StopWatch();
+    ~StopWatch();
+
+    void Start();
+    double Stop();      // Duration in Seconds
+
+private:
+    tp_sec m_Start;
+    tp_sec m_StartRound;
+
+    long Now_ms();
+}
