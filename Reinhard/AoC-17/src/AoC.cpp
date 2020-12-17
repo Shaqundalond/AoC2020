@@ -77,24 +77,24 @@ int SetupSpace(space_t s, const vector<string> &sList)
  */
 int Puzzle_17(vector<string> &sList)
 {
+    const int nGrow = 6;
+    const int wx = 8 + 2 * nGrow;
+    const int wy = 8 + 2 * nGrow;
+    const int wz = 1 + 2 * nGrow;
 
-    space_t space_a;
-    space_t space_b;
-    
-    int nGrow = 6;
-    int s_line  = sList[0].size() + 2*nGrow;
-    int s_slice = sList.size() + 2*nGrow;
-    int s_space = 1 + 2*nGrow;
+    int space_a[wx][wy][wz];
+    int space_b[wx][wy][wz];
 
-    line_t line_0(' ',s_line);
-    slice_t slice_0(line_0,s_slice);
-    // Setup
-    for (int i = 0; i < s_space; i++)
-        for (int j = 0; j < s_slice; j++)
-            space_a[j][j].push_back()
+    // Initialize
+    for (int ix = 0; ix < wx; ix++)
+        for (int iy = 0; iy < wy; iy++)
+            for (int iz = 0; iz < wz; iz++)
+                space_a[ix][iy][iz] = space_b[ix][iy][iz] = 0;
 
-    SetupSpace(space_a,sList);
-
-    // Initialice
+    // Setup Generation
+    for (int i=0;i<6;i++)
+    {
+        
+    }
     return 0;
 }
