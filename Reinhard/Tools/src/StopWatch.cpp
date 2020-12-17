@@ -30,8 +30,7 @@ StopWatch::~StopWatch()
 
 void StopWatch::Start()
 {
-    steady_clock::time_point tp = steady_clock::now();
-    m_TP_Start = m_TP_StartLap = tp;
+    m_TP_Start = m_TP_StartLap = std::chrono::high_resolution_clock::now();
 }
 
 
@@ -42,8 +41,8 @@ void StopWatch::Start()
  */
 double StopWatch::Stop()
 {
-    steady_clock::time_point tp = steady_clock::now();
-    steady_clock::duration d = tp - m_TP_Start;
+    std::chrono::time_point<std::chrono::high_resolution_clock> tp = std::chrono::high_resolution_clock::now();
+    duration<double> d = tp - m_TP_Start;
 
     double dur = d.count();
     return dur;
@@ -51,8 +50,8 @@ double StopWatch::Stop()
 
 double StopWatch::Lap()
 {
-    steady_clock::time_point tp = steady_clock::now();
-    steady_clock::duration d = tp - m_TP_StartLap;
+    std::chrono::time_point<std::chrono::high_resolution_clock> tp = std::chrono::high_resolution_clock::now();
+    duration<double> d = tp - m_TP_StartLap;
     m_TP_StartLap = tp;
 
     double dur = d.count();

@@ -20,7 +20,7 @@ public:
     double Lap();       // Duration in Seconds
 
 private:
-    std::chrono::steady_clock::time_point m_TP_Start;
-    std::chrono::steady_clock::time_point m_TP_StartLap;
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_TP_Start;
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_TP_StartLap;
 
 };
